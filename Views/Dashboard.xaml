@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RssMob.Views.Dashboard"
+                   Title="Dashboard" BackgroundColor="#0690b1">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <!--Row 1 : Header-->
+        <Grid BackgroundColor="White">
+            <VerticalStackLayout>
+            <Label Text=" "></Label>
+            <ImageButton Source="rsslogo.png"></ImageButton>
+            <Label Text=" "></Label>
+            </VerticalStackLayout>  
+        </Grid>
+
+        <!--Row 2 : Content-->
+        <Grid Grid.Row="1" BackgroundColor="White">
+            <VerticalStackLayout>
+               
+               
+
+                <Label FontSize="14" HorizontalOptions="CenterAndExpand" TextColor="Red" Text="Put summary info here. No. of inspection today, this week, outstanding, and done..etc"></Label>
+                <Label Text=" "></Label>
+                <Label FontSize="14" HorizontalOptions="CenterAndExpand" TextColor="Red" Text="Summary / KPI charts"></Label>
+                <Label Text=" "></Label>
+               
+
+            </VerticalStackLayout>
+        </Grid>
+
+        <!--Row 3 : Footer-->
+        <Grid Grid.Row="2">
+ 
+            <HorizontalStackLayout HorizontalOptions="CenterAndExpand" >
+                <VerticalStackLayout HorizontalOptions="CenterAndExpand">
+                    <Label Text="Map" TextColor="White" FontSize="14" HorizontalOptions="Center"></Label>
+                    <ImageButton Source="map.ico" Clicked="Button_MapView"></ImageButton>
+                </VerticalStackLayout>
+                <Label Text="       "></Label>
+                <VerticalStackLayout HorizontalOptions="CenterAndExpand">
+                    <Label  TextColor="White" Text="Grid" FontSize="14" HorizontalOptions="Center"></Label>
+                    <ImageButton Source="grid.ico" Clicked="Button_Tabular"></ImageButton>
+                </VerticalStackLayout>
+                <Label Text="       "></Label>
+                <VerticalStackLayout HorizontalOptions="CenterAndExpand">
+                    <Label  TextColor="White" Text="Logout" FontSize="14" HorizontalOptions="Center"></Label>
+                    <ImageButton Source="logout.ico" Clicked="Logout_Clicked"></ImageButton>
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+              
+            </Grid>
+       
+    </Grid>
+
+ 
+    
+</ContentPage>
+    

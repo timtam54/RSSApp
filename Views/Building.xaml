@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RssMob.Views.Building"
+             Title="Building"         
+             xmlns:model="clr-namespace:RssMob.Models"
+             x:DataType="ViewModel:Building"
+             xmlns:ViewModel="clr-namespace:RssMob.Models"
+             BackgroundColor="#0690b1">
+    <ScrollView VerticalOptions="FillAndExpand"  BackgroundColor="White">
+        <VerticalStackLayout>
+            <Label Text="Building Address:" FontSize="14"></Label>
+            <Entry FontSize="14" Placeholder="Address"
+            Text="{Binding Address}"
+            PlaceholderColor="Navy" />
+
+            <Label Text="Building Name:" FontSize="14"></Label>
+            <Entry FontSize="14" Placeholder="Building Name"
+            Text="{Binding BuildingName}"
+            PlaceholderColor="Navy" />
+            
+            <Label Text="Client:" FontSize="14"></Label>
+            <Picker FontSize="14"   Title="Client" x:Name="ClientID" ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectClientID, Mode=TwoWay}"
+    
+        ItemDisplayBinding="{Binding Text}" />
+            <Button Clicked="Button_Save" FontSize="14"  FontAttributes="Bold" Text="Submit"></Button>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

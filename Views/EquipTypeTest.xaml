@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RssMob.Views.EquipTypeTest"
+              xmlns:model="clr-namespace:RssMob.Models"
+              x:DataType="ViewModel:EquipTypeTest"
+             Title="Item Type Test"
+              xmlns:ViewModel="clr-namespace:RssMob.Models" BackgroundColor="#0690b1">
+    <Grid RowDefinitions="*,Auto">
+        <VerticalStackLayout Grid.Column="0" BackgroundColor="White">
+            <Label FontSize="14" TextColor="DarkSlateGrey"  Text="Test:"></Label>
+            <Entry FontSize="14" Placeholder=""
+            Text="{Binding Test }"
+            PlaceholderColor="Navy" />
+ 
+            <Label FontSize="14" Text="Severity"></Label>
+            <Entry FontSize="14" TextColor="DarkSlateGrey"  Placeholder=""
+            Text="{Binding Severity}"
+            PlaceholderColor="Navy" />
+            <Label FontSize="16" TextColor="White" FontAttributes="Bold" BackgroundColor="#0690b1" Padding="10" WidthRequest="400">Hazards</Label>
+            <HorizontalStackLayout HorizontalOptions="FillAndExpand" Padding="4" x:Name="AddNewHaz" >
+                <Button HeightRequest="30"  WidthRequest="120" TextColor="#0690b1" BorderColor="#0690b1" BorderWidth="2" BackgroundColor="White"  FontAttributes="Bold"  Clicked="Button_AddNew"  Text="Add Hazard" FontSize="14"  HorizontalOptions="Center"></Button>
+                <ImageButton Source="add.ico" Clicked="Button_AddNew"></ImageButton>
+            </HorizontalStackLayout>
+            <CollectionView ItemsSource="{Binding equipTypeTestHazards}" x:Name="InspectionList">
+                <CollectionView.ItemTemplate >
+                    <DataTemplate x:DataType="model:EquipTypeTestHazards">
+                        <Grid Padding="1">
+                            <Frame HeightRequest="70" >
+                                <Grid Padding="0" ColumnDefinitions="*,90">
+                                    <Button TextColor="#0690b1" BorderColor="#0690b1" BorderWidth="2" BackgroundColor="White"  FontAttributes="Bold"   Grid.Column="0" CommandParameter="{Binding id}" FontSize="14" Clicked="Button_HazardDetails" Text="{Binding Hazard.Detail}"></Button>
+                                    <ImageButton Grid.Column="1" HeightRequest="60"  CommandParameter="{Binding id}"  Clicked="Button_DeleteHazard" Source="delete.png"></ImageButton>
+                                </Grid>
+                            </Frame>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+        <Grid Grid.Row="1">
+            <HorizontalStackLayout HorizontalOptions="CenterAndExpand" >
+                <VerticalStackLayout HorizontalOptions="CenterAndExpand"  x:Name="btnAddHaz">
+                    <Label Text="Add Hazard" FontSize="14" TextColor="Black" FontAttributes="Bold"  HorizontalOptions="Center"></Label>
+                    <ImageButton Source="add.ico" Clicked="Button_AddNew"></ImageButton>
+                </VerticalStackLayout>
+
+                <Label Text=" "></Label>
+                <Label Text=" "></Label>
+                <VerticalStackLayout HorizontalOptions="CenterAndExpand">
+                    <Label Text="Save" TextColor="Black" FontAttributes="Bold"  FontSize="14" HorizontalOptions="Center"></Label>
+                    <ImageButton Source="save.ico" Clicked="Button_Save"></ImageButton>
+                </VerticalStackLayout>
+                <Label Text=" "></Label>
+                <Label Text=" "></Label>
+                <VerticalStackLayout HorizontalOptions="CenterAndExpand">
+                    <Label Text="Close" TextColor="Black" FontAttributes="Bold"  FontSize="14"  HorizontalOptions="Center"></Label>
+                    <ImageButton Source="logout.ico" Clicked="Button_Close"></ImageButton>
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+
+        </Grid>
+    </Grid>
+</ContentPage>

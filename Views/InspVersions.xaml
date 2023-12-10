@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RssMob.Views.InspVersions"
+              Title="Inspection Versions"
+              xmlns:model="clr-namespace:RssMob.Models"
+             x:DataType="ViewModel:InspVersionViewModel"
+             xmlns:ViewModel="clr-namespace:RssMob.Models">
+
+    <Grid RowDefinitions="*,Auto">
+
+        <ScrollView VerticalOptions="FillAndExpand">
+            <VerticalStackLayout>
+                
+                <CollectionView ItemsSource="{Binding Versions}" x:Name="InspVersionList">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:VersionRpt">
+                            <Grid Padding="10">
+                                <Frame HeightRequest="120" >
+                                    <Grid Padding="0" ColumnDefinitions="100,*">
+                                        <Label Text="{Binding Author}"></Label>
+                                        <StackLayout Grid.Column="1" Padding="2">
+                                            <HorizontalStackLayout VerticalOptions="Start">
+                                                <VerticalStackLayout WidthRequest="80" VerticalOptions="Start">
+                                                <Button WidthRequest="80" FontSize="20" CommandParameter="{Binding id}" Clicked="Button_Edit" Text="{Binding VersionNo}"></Button>
+                                                    <ImageButton WidthRequest="80"  CommandParameter="{Binding id}"  Clicked="Button_Delete" HeightRequest="14" Source="delete.png">
+                                                    </ImageButton>
+                                                    
+                                                </VerticalStackLayout>
+                                                <VerticalStackLayout>
+
+                                                    <Label HorizontalOptions="Center" Text="{Binding Information}"></Label>
+                                                    <Label HorizontalOptions="Center" Text="{Binding VersionType}"></Label>
+                                                    
+                                                </VerticalStackLayout>
+                                            </HorizontalStackLayout>
+                                           
+                                           
+                                        </StackLayout>
+                                    </Grid>
+                                </Frame>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+        <Grid Grid.Row="1">
+
+            <HorizontalStackLayout HorizontalOptions="CenterAndExpand" >
+                <VerticalStackLayout HorizontalOptions="CenterAndExpand">
+                    <Label Text="Add Version"  TextColor="Black"   FontAttributes="Bold" FontSize="14" HorizontalOptions="Center"></Label>
+                    <ImageButton Clicked="Button_AddNew" Source="add.ico" ></ImageButton>
+
+                </VerticalStackLayout>
+                <Label Text=" "></Label>
+                <Label Text=" "></Label>
+                <VerticalStackLayout HorizontalOptions="CenterAndExpand">
+                    <Label  TextColor="Black" Text="Back"  FontSize="14"  FontAttributes="Bold" HorizontalOptions="Center"></Label>
+                    <ImageButton Source="logout.ico"  Clicked="Button_Close"></ImageButton>
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+
+        </Grid>
+    </Grid>
+</ContentPage>

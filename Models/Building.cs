@@ -1,0 +1,35 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace RssMob.Models
+{
+    public class Building
+    {
+        public int id { get; set; }
+        //   [Display(Name = "Building Name")]
+
+        public string? BuildingName { get; set; }
+        //public Client Client { get; set; }
+        // [Display(Name = "Client")]
+
+        public int ClientID { get; set; }
+
+        public string? Address { get; set; }
+
+        public List<SelectListItem> Clients { get; set; }
+        public SelectListItem SelectClientID { get; set; }
+    }
+
+    public class BuildingsViewModel
+    {
+        public ObservableCollection<Building> BuildingViews { get; set; }
+
+
+        public ObservableCollection<Building> NewAddressViews { get; set; }
+    }
+}
+

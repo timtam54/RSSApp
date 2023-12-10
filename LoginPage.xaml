@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RssMob.LoginPage"
+              Title="Login Page" BackgroundColor="#0690b1">
+    <StackLayout BackgroundColor="White">
+        <Image 
+                Source="rsslogo.png"
+                SemanticProperties.Description="Roof Safety"
+                HeightRequest="150"
+                HorizontalOptions="Center" />
+
+        <Label WidthRequest="300" FontSize="14" HorizontalOptions="CenterAndExpand" TextColor="Black" FontAttributes="Bold"  Text="Email"></Label>
+        <Entry WidthRequest="300" FontSize="14" x:Name="txtEmail" HorizontalOptions="CenterAndExpand"
+                TextColor="DarkSlateGrey"
+                Placeholder="Email" BackgroundColor="LightGray"
+                PlaceholderColor="#154360" />
+        <Label FontSize="14" TextColor="Black" FontAttributes="Bold" WidthRequest="300"  Text="Password" HorizontalOptions="CenterAndExpand"></Label>
+        <Entry WidthRequest="300" FontSize="14" x:Name="txtPassword" HorizontalOptions="CenterAndExpand"
+                TextColor="DarkSlateGrey"
+                Placeholder="Password" BackgroundColor="LightGray"
+                PlaceholderColor="#154360" />
+        <Label Text=" "></Label>
+        <Label Text=" "></Label>
+        <Button HorizontalOptions="CenterAndExpand"
+                x:Name="btnLogin"
+                Text="Login"
+                BackgroundColor="#0690b1"
+                TextColor="White"
+                BorderColor="#000"
+                CornerRadius="14"
+                BorderWidth="1.5"
+                FontAttributes="Bold"
+                FontSize="24" WidthRequest="200"
+                Clicked="btnLogin_Clicked"
+                VerticalOptions="Center"/>
+
+    </StackLayout>
+</ContentPage>

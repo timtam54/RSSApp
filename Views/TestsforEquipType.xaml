@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RssMob.Views.TestsforEquipType"
+             Title="Tests for Item Type"
+              xmlns:model="clr-namespace:RssMob.Models"
+             x:DataType="ViewModel:EquipTypeTestViewModel"
+             xmlns:ViewModel="clr-namespace:RssMob.Models">
+    <Grid RowDefinitions="*,Auto">
+
+        <ScrollView VerticalOptions="FillAndExpand">
+            <VerticalStackLayout>
+                
+                <CollectionView ItemsSource="{Binding EquipTypeTests}" x:Name="EquipTypeTestList">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:EquipTypeTest">
+                            <Grid Padding="2">
+                                <Frame HeightRequest="90" >
+                                    <Grid Padding="0" ColumnDefinitions="*,90">
+                                        <StackLayout Grid.Column="0" >
+                                            <Label FontSize="14"  TextColor="#0690b1" LineBreakMode="WordWrap"  Text="{Binding Test}"></Label>
+                                            <HorizontalStackLayout>
+                                                <Label FontSize="14" Text="Severity:" TextColor="Black"></Label>
+                                                <Button FontSize="14"  Clicked="TestHazard_Clicked" CommandParameter="{Binding id}" Text="{Binding Severity}"></Button>
+                                            </HorizontalStackLayout>
+                                        </StackLayout>
+                                        <ImageButton Grid.Column="1" HeightRequest="60"  CommandParameter="{Binding id}"  Clicked="Button_Delete" Source="delete.png"></ImageButton>
+
+                                    </Grid>
+
+                                </Frame>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+        <Grid Grid.Row="1">
+
+            <HorizontalStackLayout HorizontalOptions="CenterAndExpand" >
+                <VerticalStackLayout HorizontalOptions="CenterAndExpand">
+                    <Label Text="Add New" TextColor="Black" FontAttributes="Bold" FontSize="14" HorizontalOptions="Center"></Label>
+                    <ImageButton Clicked="Button_AddNew"  Source="add.ico" ></ImageButton>
+
+                </VerticalStackLayout>
+                <Label Text=" "></Label>
+                <VerticalStackLayout HorizontalOptions="CenterAndExpand">
+                    <Label TextColor="Black" FontAttributes="Bold" FontSize="14" HorizontalOptions="Center"></Label>
+                    <ImageButton Source="logout.ico"  Clicked="Button_Close"></ImageButton>
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+
+        </Grid>
+    </Grid>
+</ContentPage>

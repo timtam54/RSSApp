@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RssMob.Views.RssMap"
+ Title="Roof Safety Solutions - inspections"
+           BackgroundColor="Black"
+             xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps">
+
+    <Grid RowDefinitions="*,0">
+        <Grid Grid.Column="0">
+            <maps:Map x:Name="myMap" IsEnabled="true" MapType="Street"></maps:Map>
+        </Grid>
+        <Grid Grid.Column="1" VerticalOptions="End" BackgroundColor="White" HeightRequest="100">
+            <HorizontalStackLayout HorizontalOptions="CenterAndExpand"  HeightRequest="100">
+            <VerticalStackLayout HorizontalOptions="CenterAndExpand">
+                <Label Text="Table" TextColor="Black" FontAttributes="Bold" FontSize="14" HorizontalOptions="Center"></Label>
+                <ImageButton Clicked="Grid_Clicked" Source="grid.ico" ></ImageButton>
+            </VerticalStackLayout>
+                <Label Text=" "></Label>
+            <VerticalStackLayout HorizontalOptions="CenterAndExpand">
+                <Label Text="Add New" TextColor="Black"  FontAttributes="Bold" FontSize="14"  HorizontalOptions="Center"></Label>
+                <ImageButton Clicked="AddNew_Clicked" Source="add.ico" ></ImageButton>
+            </VerticalStackLayout>
+                <Label Text=" "></Label>
+                <VerticalStackLayout HorizontalOptions="CenterAndExpand">
+                <Label Text="Logout" FontSize="14"  FontAttributes="Bold" TextColor="Black"  HorizontalOptions="Center"></Label>
+                <ImageButton Source="logout.ico" Clicked="Logout_Clicked"></ImageButton>
+            </VerticalStackLayout>
+        </HorizontalStackLayout> 
+    </Grid>
+  
+    </Grid>
+
+</ContentPage>

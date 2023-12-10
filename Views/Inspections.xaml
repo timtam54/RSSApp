@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RssMob.Views.Inspections"
+            Title="Inspections"
+             BackgroundColor="#0690b1"
+             xmlns:model="clr-namespace:RssMob.Models"
+             x:DataType="ViewModel:InspectionsViewModel"
+             xmlns:ViewModel="clr-namespace:RssMob.Models">
+    <Grid RowDefinitions="30,30,*,Auto">
+        <Grid ColumnDefinitions="140,*" BackgroundColor="Black" Grid.Row="0">
+
+            <Label Text="Search Inspection" Grid.Column="0"  TextColor="White" FontAttributes="Bold" FontSize="16" VerticalOptions="Center"></Label>
+            <Entry x:Name="entry"  BackgroundColor="White" FontAttributes="Bold" Grid.Column="1" Placeholder="-Search Building-" FontSize="16"
+       TextChanged="entry_TextChanged"/>
+        </Grid>
+        <Grid ColumnDefinitions="*,*" BackgroundColor="White" Grid.Row="1">
+
+            <DatePicker Format="dd-MM-yyyy" DateSelected="dteFrom_DateSelected" x:Name="dteFrom" Grid.Column="0"  TextColor="Black" FontAttributes="Bold" FontSize="16" BackgroundColor="White" VerticalOptions="Center"></DatePicker>
+            <DatePicker  Format="dd-MM-yyyy"  DateSelected="dteTo_DateSelected" x:Name="dteTo" Grid.Column="1"  TextColor="Black" FontAttributes="Bold" FontSize="16" VerticalOptions="Center"></DatePicker>
+  
+        </Grid>
+        <Grid Grid.Row="2" BackgroundColor="White">
+            <ScrollView VerticalOptions="FillAndExpand">
+                <VerticalStackLayout>
+                    <CollectionView ItemsSource="{Binding InspectionViews}" x:Name="InspectionList">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="model:InspectionView">
+                                <Grid Padding="2"  VerticalOptions="Start">
+                                    <Frame HeightRequest="125"  VerticalOptions="Start">
+                                        <Grid Padding="0" ColumnDefinitions="125,*" VerticalOptions="Start">
+                                            <Image Aspect="AspectFill" Source="{Binding Photo}" WidthRequest="125" HeightRequest="125">
+
+                                            </Image>
+
+                                            <StackLayout Grid.Column="1" VerticalOptions="CenterAndExpand">
+                                                <HorizontalStackLayout>
+                                                    <Label Text="{Binding InspDate,StringFormat='{0:dd-MMM-yy}'}" FontSize="14"  TextColor="Navy" FontAttributes="Bold"></Label>
+                                                    <Label TextColor="White">..</Label>
+                                                    <Label Text="{Binding Status}" TextColor="Red" FontAttributes="Bold"></Label>
+                                                </HorizontalStackLayout>
+                                                <Button FontAttributes="Bold" BorderWidth="2" BackgroundColor="White" TextColor="#0690b1" BorderColor="#0690b1"  HeightRequest="30"  WidthRequest="200" FontSize="14" CommandParameter="{Binding id}" Clicked="Button_InspectItem" Text="{Binding ClientName}"></Button>
+                            
+
+                                                <Label Text="{Binding Address}" FontSize="12" TextColor="Black"></Label>
+
+                                            </StackLayout>
+                                        </Grid>
+                                    </Frame>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+
+                    </CollectionView>
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+
+    <Grid Grid.Row="3">
+
+        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" >
+            <VerticalStackLayout HorizontalOptions="CenterAndExpand">
+                    <Label Text="Map" TextColor="Black" FontSize="14" HorizontalOptions="Center"></Label>
+                    <ImageButton Clicked="Button_MapView" Source="map.ico" ></ImageButton>
+          
+            </VerticalStackLayout>
+                <Label Text=" "></Label>
+                <Label Text=" "></Label>
+                <VerticalStackLayout HorizontalOptions="CenterAndExpand">
+                    <Label Text="Add New" TextColor="Black"  FontSize="14"  HorizontalOptions="Center"></Label>
+                    <ImageButton Clicked="AddNew_Clicked" Source="add.ico" ></ImageButton>
+
+                </VerticalStackLayout>
+                <Label Text=" "></Label>
+                <Label Text=" "></Label>
+                <VerticalStackLayout HorizontalOptions="CenterAndExpand">
+                    <Label Text="Logout" FontSize="14" TextColor="Black"  HorizontalOptions="Center"></Label>
+                <ImageButton Source="logout.ico" Clicked="Logout_Clicked"></ImageButton>
+            </VerticalStackLayout>
+        </HorizontalStackLayout>
+
+    </Grid>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RssMob.Views.Inspect"
+             Title="Inspection"
+             xmlns:model="clr-namespace:RssMob.Models"
+             x:DataType="ViewModel:Inspection"
+             xmlns:ViewModel="clr-namespace:RssMob.Models" BackgroundColor="#0690b1">
+    <Grid RowDefinitions="*,Auto">
+
+            <ScrollView VerticalOptions="FillAndExpand" BackgroundColor="White">
+                
+                <VerticalStackLayout>
+                    
+                    <Label Text=" "></Label>
+                <ActivityIndicator IsRunning="false" IsVisible="false" Color="Black" x:Name="Indi"></ActivityIndicator>
+                <Label IsVisible="false" x:Name="lblUpload" FontSize="20" TextColor="red">Uploading image.  Please wait til complete....</Label>
+
+                <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
+                        <Image x:Name="Image_Upload"  Source="{Binding PhotoURL}" Aspect="AspectFill" WidthRequest="250" HeightRequest="250"></Image>
+                        <VerticalStackLayout VerticalOptions="CenterAndExpand">
+                            <ImageButton Clicked="Image_Clicked" Source="camera.ico"></ImageButton>
+                            <ImageButton  Source="gallery.ico" HorizontalOptions="Center" Clicked="Gallery_Clicked"
+                    ></ImageButton>
+                        <ImageButton HeightRequest="18" WidthRequest="18" Clicked="ImageButtonDelete_Clicked" Source="delete.png"></ImageButton>
+
+                    </VerticalStackLayout>
+                    </HorizontalStackLayout>
+                    <Entry FontSize="14" Placeholder="Testing Instruments"
+            Text="{Binding TestingInstruments}"
+            PlaceholderColor="Navy" />
+                   
+                
+                        <Entry FontSize="14"  Placeholder="Areas"
+            Text="{Binding Areas}"
+            PlaceholderColor="Navy" />
+         
+                    <HorizontalStackLayout HorizontalOptions="Fill">
+                    <DatePicker FontSize="14" WidthRequest="200"  Date="{Binding InspectionDate}"></DatePicker>
+                    <Picker FontSize="14" WidthRequest="300"  Title="Inspector" x:Name="InspectorID" ItemsSource="{Binding Insps}" SelectedItem="{Binding SelectInspectorID, Mode=TwoWay}" ItemDisplayBinding="{Binding Text}" />
+                </HorizontalStackLayout>
+
+                <HorizontalStackLayout HorizontalOptions="FillAndExpand">
+                    <Picker WidthRequest="320" FontSize="14" SelectedIndexChanged="BuildingID_SelectedIndexChanged"  Title="Building" x:Name="BuildingID" ItemsSource="{Binding Buildings}" SelectedItem="{Binding SelectBuidingID, Mode=TwoWay}"
+
+        ItemDisplayBinding="{Binding Text}" />
+                    <Button WidthRequest="40" Text="..." Clicked="Search" FontSize="14" TextColor="#0690b1" BorderColor="#0690b1" BorderWidth="2" BackgroundColor="White"  FontAttributes="Bold" ></Button>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout BackgroundColor="#0690b1" HeightRequest="30">
+                    <Label Text="Inspection Items" FontSize="16"  TextColor="White"  HorizontalOptions="Center"></Label>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout Padding="4">
+                    <Button WidthRequest="120" HeightRequest="30"  TextColor="#0690b1" BorderColor="#0690b1" BorderWidth="2" BackgroundColor="White"  FontAttributes="Bold"  Clicked="Button_ItemAddNew"  Text="Add Item" FontSize="14"  HorizontalOptions="Center"></Button>
+                    <ImageButton Clicked="Button_ItemAddNew" Source="add.ico" ></ImageButton>
+                </HorizontalStackLayout>
+
+                <CollectionView ItemsSource="{Binding InspEquipViews}" x:Name="InspEquipList">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="model:InspEquipView">
+                                <Grid Padding="2">
+                                    <Frame HeightRequest="125" >
+                                        <Grid Padding="0" ColumnDefinitions="125,*,80">
+
+                                            <Image Grid.Column="0" Aspect="AspectFill" Source="{Binding Photos}" WidthRequest="125" HeightRequest="125">
+                                            </Image>
+
+                                            <VerticalStackLayout Grid.Column="1" VerticalOptions="CenterAndExpand">
+                                            <Button FontSize="14" TextColor="#0690b1" BorderColor="#0690b1" BorderWidth="2" BackgroundColor="White"  FontAttributes="Bold" CommandParameter="{Binding id}" Clicked="Button_ItemEdit" Text="{Binding Location}"></Button>
+                                                <Label FontSize="14" Text="{Binding EquipDesc}"></Label>
+
+                                            </VerticalStackLayout>
+                                            <VerticalStackLayout Grid.Column="2" VerticalOptions="CenterAndExpand">
+                                                <ImageButton CommandParameter="{Binding id}" Clicked="Button_ItemDelete"  HeightRequest="60" Source="delete.png"></ImageButton>
+                                            <Label FontSize="14" Text="{Binding SerialNo}"></Label>
+                                            </VerticalStackLayout>
+                                        </Grid>
+                                    </Frame>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </ScrollView>
+ 
+        <Grid Grid.Row="1">
+            <HorizontalStackLayout HorizontalOptions="CenterAndExpand" >
+                <VerticalStackLayout HorizontalOptions="CenterAndExpand">
+                    <Label Text="Delete" TextColor="Black" FontSize="14" HorizontalOptions="Center"></Label>
+                    <ImageButton HeightRequest="60" WidthRequest="60" Source="delete.png" Clicked="Delete_Clicked"></ImageButton>
+                </VerticalStackLayout>
+                <Label Text=" "></Label>
+                <Label Text=" "></Label><VerticalStackLayout HorizontalOptions="CenterAndExpand">
+                    <Label Text="Save" TextColor="Black" FontSize="14" HorizontalOptions="Center"></Label>
+                    <ImageButton Source="save.ico" Clicked="Button_Save"></ImageButton>
+                </VerticalStackLayout>
+                <Label Text=" "></Label>
+                <Label Text=" "></Label>
+                <VerticalStackLayout HorizontalOptions="CenterAndExpand">
+                    <Label  TextColor="Black" Text="Versions" FontSize="14"  HorizontalOptions="Center"></Label>
+                    <ImageButton Source="versions.ico" Clicked="Button_Versions"></ImageButton>
+                </VerticalStackLayout>
+               
+                <VerticalStackLayout>
+                    <Label  TextColor="Black" Text="Report" FontSize="14"  HorizontalOptions="Center"></Label>
+                    <ImageButton CommandParameter="{Binding id}" Source="print.ico" Clicked="Print_Clicked">
+                        
+                    </ImageButton>
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+        </Grid>
+        </Grid>
+</ContentPage>

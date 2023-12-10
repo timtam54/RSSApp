@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RssMob.Views.InspEquipTestDet"
+              xmlns:ViewModel="clr-namespace:RssMob.Models" 
+              xmlns:model="clr-namespace:RssMob.Models"
+             x:DataType="ViewModel:InspEquipTypeTest"
+             Title="Inspection Item Tests" BackgroundColor="#0690b1">
+    <Grid RowDefinitions="*,Auto">
+        <Grid Grid.Row="0" BackgroundColor="White">
+            <ScrollView VerticalOptions="FillAndExpand">
+                <VerticalStackLayout>
+                    <ActivityIndicator IsRunning="false" Color="Black" x:Name="Indi"></ActivityIndicator>
+                    <Label Text="Test" FontAttributes="Bold" FontSize="14"></Label>
+                    <Grid ColumnDefinitions="140,*"  BackgroundColor="Black"   x:Name="ddlett">
+      <Label Text="Search" TextColor="White" FontAttributes="Bold" FontSize="16" VerticalOptions="Center"></Label>
+                        <Entry x:Name="entry" BackgroundColor="White" Grid.Column="1" Placeholder="-Search Tests-" FontSize="16"
+       TextChanged="entry_TextChanged"/>
+                    </Grid>
+
+                    <Grid BackgroundColor="#0690b1" HeightRequest="30" x:Name="ddlett2">
+                        <Label Text="Tests" FontSize="16"  TextColor="White"  HorizontalOptions="Center"></Label>
+                    </Grid>
+                    <Grid BackgroundColor="White" x:Name="ddlett3">
+                        <ScrollView VerticalOptions="FillAndExpand">
+                            <VerticalStackLayout>
+                                <CollectionView ItemsSource="{Binding ETTs}" x:Name="InspectionList">
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate x:DataType="model:SelectListItem">
+                                            <Grid Padding="1">
+                                                <Frame HeightRequest="65" >
+                                                    <Grid Padding="2" ColumnDefinitions="94,*">
+                                                        <Button HeightRequest="30" TextColor="#0690b1" BorderColor="#0690b1" BorderWidth="2" BackgroundColor="White"  FontAttributes="Bold"  WidthRequest="90" FontSize="14"  Grid.Column="0" Clicked="Button_Clicked" CommandParameter="{Binding .}" Text="Select"></Button>
+                                                        <Label Grid.Column="1" Text="{Binding Text}"  FontSize="14" HeightRequest="60"  LineBreakMode="WordWrap" TextColor="Black"></Label>
+                                                    </Grid>
+                                                </Frame>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </VerticalStackLayout>
+                        </ScrollView>
+                    </Grid>
+
+
+        
+                    <Label x:Name="lblett" Text="{Binding EquipTypeTestDesc}"></Label>
+                    <ImageButton Grid.Column="1" x:Name="btnETT" Source="detail.ico" Clicked="btnETT_Clicked"></ImageButton>
+
+
+                    <!--<HorizontalStackLayout  RadioButtonGroup.GroupName="PFR" RadioButtonGroup.SelectedValue="{Binding Ps}">
+
+                        <RadioButton x:Name="chkFail" CheckedChanged="RadioButton_CheckedChanged"   Value="0" Content="Fail" />
+                        <RadioButton x:Name="chkPass" CheckedChanged="RadioButton_CheckedChanged"   Value="1"  Content="Pass" />
+                        <RadioButton x:Name="chkRec" CheckedChanged="RadioButton_CheckedChanged"   Value="2" Content="Recommend"/>
+                    </HorizontalStackLayout>-->
+                    
+                    <!--<HorizontalStackLayout HorizontalOptions="FillAndExpand" Margin="18" Spacing="20">
+                        <Label Text="Passed" FontAttributes="Bold"  FontSize="14"></Label>
+                        <Picker FontSize="14" WidthRequest="300" Focused="CheckBox_Focused"  x:Name="chkPass" ItemsSource="{Binding PFCSs}" SelectedItem="{Binding SelPass, Mode=TwoWay}" ItemDisplayBinding="{Binding Text}" />
+
+                    </HorizontalStackLayout>-->
+                    <Entry FontSize="14" Placeholder="-Comments/Notes-" Text="{Binding Comment}" PlaceholderColor="Navy" />
+                    <Label x:Name="lblFail" FontSize="16" TextColor="White" FontAttributes="Bold" BackgroundColor="#0690b1" Padding="10" WidthRequest="400">Australian standards clause</Label>
+                     <HorizontalStackLayout HorizontalOptions="FillAndExpand" Padding="4">
+                        <Entry WidthRequest="300" FontSize="14" x:Name="txtFailReason" Placeholder="-Add Aus Std Clause-" HorizontalOptions="CenterAndExpand"></Entry>
+     
+                        <Button Clicked="FailReasonAdded"  HeightRequest="30"  WidthRequest="60" TextColor="#0690b1" BorderColor="#0690b1" BorderWidth="2" BackgroundColor="White"  FontAttributes="Bold" Text="Add+" FontSize="14"  HorizontalOptions="Center"></Button>
+                        
+                    </HorizontalStackLayout>
+
+                    <CollectionView ItemsSource="{Binding equipTypeTestFail}" x:Name="failList">
+                        <CollectionView.ItemTemplate >
+                            <DataTemplate x:DataType="model:EquipTypeTestFailInsp">
+                                
+                                             <Label VerticalOptions="CenterAndExpand" HeightRequest="60" LineBreakMode="WordWrap" Grid.Column="1" FontSize="14"  Text="{Binding FailReason}"></Label>
+                                     
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <!--<CollectionView ItemsSource="{Binding equipTypeTestFail}" x:Name="failList2">
+                        <CollectionView.ItemTemplate >
+                            <DataTemplate x:DataType="model:EquipTypeTestFailInsp">
+                                <HorizontalStackLayout>
+                                            <Label TextColor="Green" FontAttributes="Bold" FontSize="16">Test Passed</Label>
+                                            <Label TextDecorations="Strikethrough" HeightRequest="60" LineBreakMode="WordWrap" Grid.Column="1" FontSize="14"  Text="{Binding FailReason}"></Label>
+                                        </HorizontalStackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>-->
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+        <Grid Grid.Row="1">
+
+            <HorizontalStackLayout HorizontalOptions="CenterAndExpand" >
+                <VerticalStackLayout HorizontalOptions="CenterAndExpand">
+                    <Label Text="Hazards" TextColor="Black" FontAttributes="Bold"  FontSize="14" HorizontalOptions="Center"></Label>
+                    <ImageButton Source="map.ico" Clicked="btnETT_Clicked"></ImageButton>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout HorizontalOptions="CenterAndExpand">
+                    <Label Text="All Tests" TextColor="Black" FontAttributes="Bold"  FontSize="14"  HorizontalOptions="Center"></Label>
+                    <ImageButton Source="grid.ico" Clicked="AllTest_Clicked"></ImageButton>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout HorizontalOptions="CenterAndExpand">
+                    <Label Text="Save" FontSize="14" TextColor="Black" FontAttributes="Bold"   HorizontalOptions="Center"></Label>
+                    <ImageButton Source="save.ico" Clicked="Button_Save"></ImageButton>
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+
+        </Grid>
+    </Grid>
+</ContentPage>

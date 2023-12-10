@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RssMob.Views.InspEquip"
+             Title="Inspection Item Detail" BackgroundColor="#0690b1"
+               xmlns:model="clr-namespace:RssMob.Models"
+             
+             x:DataType="ViewModel:InspEquip"
+             xmlns:ViewModel="clr-namespace:RssMob.Models">
+        
+    <Grid RowDefinitions="*,Auto">
+       
+        <ScrollView VerticalOptions="FillAndExpand" BackgroundColor="White">
+                <VerticalStackLayout>
+                <ActivityIndicator IsRunning="false" IsVisible="false" Color="Black" x:Name="Indi"></ActivityIndicator>
+                <Label IsVisible="false" x:Name="lblUpload" FontSize="20" TextColor="red">Uploading image.  Please wait til complete....</Label>
+       
+              
+                    <CarouselView HeightRequest="270" ItemsSource="{Binding InspPhotos}" x:Name="InspPhotosCarousel">
+                        <CarouselView.ItemTemplate>
+                            <DataTemplate x:DataType="model:InspPhoto">
+
+
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                                    <Label Text="  "></Label>
+                                    <Label Text="  "></Label>
+                                    <Label Text="  "></Label>
+                                    <Label Text="  "></Label>
+                                    <Label Text="  "></Label>
+                                    <Label Text="  "></Label>
+                                    <Label Text="  "></Label>
+                                    <Label Text="  "></Label>
+                                    <Image  Source="{Binding photoname}"
+                               Aspect="AspectFill"
+                               HeightRequest="250"
+                               WidthRequest="250" 
+                               HorizontalOptions="Center" />
+                                    <ImageButton Grid.Column="1" HeightRequest="18" WidthRequest="18" CommandParameter="{Binding id}"  Clicked="Button_PhotoDelete" Source="delete.png"></ImageButton>
+                                </StackLayout>
+                            </DataTemplate>
+                        </CarouselView.ItemTemplate>
+                    </CarouselView>
+                  
+                
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label FontSize="14" FontAttributes="Bold" Text="Item Type" Grid.Row="0" Grid.Column="0"></Label>
+                    <Picker  FontSize="14" TextColor="DarkSlateGrey" Title="Item Type" x:Name="EquipTypeID" SelectedIndexChanged="EquipTypeID_SelectedIndexChanged" ItemsSource="{Binding Et}" SelectedItem="{Binding SelEquipType, Mode=TwoWay}"
+        ItemDisplayBinding="{Binding Text,Mode=TwoWay}" Grid.Row="0"
+                 Grid.Column="1" />
+
+                    <Label FontSize="14" FontAttributes="Bold" Text="Manufacturer" Grid.Row="1" Grid.Column="0"></Label>
+
+                    <Entry Placeholder="Manufacturer" FontSize="14" TextColor="DarkSlateGrey" 
+            Text="{Binding Manufacturer}"
+            PlaceholderColor="Navy"  Grid.Row="1"
+                 Grid.Column="1"/>
+
+                    <Label FontSize="14" FontAttributes="Bold" Text="Installer" Grid.Row="2" Grid.Column="0"></Label>
+
+                    <Entry Placeholder="Installer"  FontSize="14" TextColor="DarkSlateGrey" 
+            Text="{Binding Installer}" PlaceholderColor="Navy"   Grid.Row="2"           Grid.Column="1"/>
+
+
+                    <Label FontSize="14" FontAttributes="Bold" Text="Rating" Grid.Row="3" Grid.Column="0"></Label>
+
+                    <Entry Placeholder="Rating"  FontSize="14" TextColor="DarkSlateGrey" 
+            Text="{Binding Rating}" PlaceholderColor="Navy"   Grid.Row="3" Grid.Column="1"/>
+
+
+                    
+
+                    <Label FontSize="14" FontAttributes="Bold" Text="Location" Grid.Row="5" Grid.Column="0"></Label>
+
+                    <Entry Placeholder="Location" TextChanged="Location_TextChanged"  FontSize="14" TextColor="DarkSlateGrey" 
+            Text="{Binding Location}"       PlaceholderColor="Navy" Completed="Entry_Completed"   Grid.Row="5"           Grid.Column="1"/>
+
+                    <Label FontSize="14" FontAttributes="Bold" Text="Asset ID" Grid.Row="4" Grid.Column="0"></Label>
+
+                    <Entry Placeholder="Serial No"  FontSize="14" TextColor="DarkSlateGrey" 
+Text="{Binding SerialNo}"  x:Name="SerialNo"      PlaceholderColor="Navy"   Grid.Row="4"           Grid.Column="1"/>
+
+                    
+                    <Label FontSize="14" FontAttributes="Bold" Text="Controls" Grid.Row="6" Grid.Column="0"></Label>
+
+                    <Entry Placeholder="Required Controls"  FontSize="14" TextColor="DarkSlateGrey" 
+            Text="{Binding requiredControls}"       PlaceholderColor="Navy"   Grid.Row="6"           Grid.Column="1"/>
+
+                    <Label FontSize="14" FontAttributes="Bold" Text="Qty" Grid.Row="7" Grid.Column="0"></Label>
+
+                    <Entry Placeholder="Qty"  FontSize="14" TextColor="DarkSlateGrey" 
+            Text="{Binding Qty}"       PlaceholderColor="Navy"   Grid.Row="7"           Grid.Column="1"/>
+
+                </Grid>
+
+    
+                        
+                    <Entry FontSize="14" TextColor="DarkSlateGrey" Placeholder="Notes"
+            Text="{Binding Notes}"
+            PlaceholderColor="Navy" />
+                <Label FontSize="16" FontAttributes="Bold" TextColor="White" BackgroundColor="#0690b1" Padding="10" WidthRequest="400">Fail Point / Reason</Label>
+                <HorizontalStackLayout Padding="4" x:Name="AddNewTestRow">
+                    <Button WidthRequest="120" TextColor="#0690b1" BorderColor="#0690b1" BorderWidth="2" BackgroundColor="White"  FontAttributes="Bold"  Clicked="Button_InspTestAddNew"  Text="Add New Test" FontSize="14"  HorizontalOptions="Center"></Button>
+                    <ImageButton Source="test.ico" HeightRequest="20" WidthRequest="20" Clicked="Button_InspTestAddNew"></ImageButton>
+                </HorizontalStackLayout>
+                <CollectionView ItemsSource="{Binding InspEquipTypeTests}" x:Name="InspectionList">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="model:InspEquipTypeTestRpt">
+                            <Grid Padding="4"  ColumnDefinitions="110,*">
+                                <HorizontalStackLayout Grid.Column="0" Padding="2" WidthRequest="110" VerticalOptions="Start">
+                                    <Button FontSize="14" TextColor="{Binding PassFailColour}" BorderColor="{Binding PassFailColour}" WidthRequest="60"  BorderWidth="2" FontAttributes="Bold"  HeightRequest="30" CommandParameter="{Binding id}"
+                            Clicked="Button_InspTest" Text="{Binding PassFail}" BackgroundColor="White"></Button>
+                                    <Label WidthRequest="2" TextColor="White">.</Label>
+                                    <Button HeightRequest="40" WidthRequest="12" CommandParameter="{Binding id}" BorderWidth="2" Clicked="Button_InspTestDelete" BackgroundColor="White" TextColor="Black" BorderColor="Black"  FontSize="16" FontAttributes="Bold" Text="X"></Button>
+                                </HorizontalStackLayout>
+                                <VerticalStackLayout Grid.Column="1"   VerticalOptions="Start">
+
+                                    <Label FontSize="14" TextColor="Black" Text="{Binding EquipTypeTest}" ></Label>
+                                    <Label FontSize="10" TextColor="#0690b1" LineBreakMode="WordWrap"  Text="{Binding Reason}"></Label>
+
+                                </VerticalStackLayout>
+                            </Grid>
+
+
+
+                        </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                       
+                    </CollectionView>
+              
+              
+            </VerticalStackLayout>
+    </ScrollView>
+       
+
+        <Grid Grid.Row="1"  >
+
+            <HorizontalStackLayout HorizontalOptions="CenterAndExpand" >
+                <VerticalStackLayout HorizontalOptions="CenterAndExpand">
+                    <Label Text="Save" FontAttributes="Bold" TextColor="Black" FontSize="14" HorizontalOptions="Center"></Label>
+                    <ImageButton Source="save.ico" Clicked="SaveClose_Clicked"></ImageButton>
+                </VerticalStackLayout>
+                <Label Text=" "></Label>
+                <VerticalStackLayout HorizontalOptions="CenterAndExpand" x:Name="btnAddTest">
+                    <Label  TextColor="Black" FontAttributes="Bold"  Text="Add Test" FontSize="14"  HorizontalOptions="Center"></Label>
+                    <ImageButton Source="test.ico" Clicked="Button_InspTestAddNew"></ImageButton>
+                </VerticalStackLayout>
+                <Label Text=" "></Label>
+                <VerticalStackLayout HorizontalOptions="CenterAndExpand"  x:Name="btnAddPhoto">
+                    <Label  TextColor="Black" FontAttributes="Bold" Text="Add Photo" FontSize="14"  HorizontalOptions="Center"></Label>
+                    <ImageButton Clicked="Button_PhotoAdd" Source="add.ico" ></ImageButton>
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+
+        </Grid>
+    </Grid>
+
+</ContentPage>
