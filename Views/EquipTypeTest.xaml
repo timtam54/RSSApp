@@ -43,13 +43,16 @@
                     <Label Text="Add Hazard" FontSize="14" TextColor="Black" FontAttributes="Bold"  HorizontalOptions="Center"></Label>
                     <ImageButton Source="add.ico" Clicked="Button_AddNew"></ImageButton>
                 </VerticalStackLayout>
-
+                <Label Text=" "></Label>
+                <Label Text=" "></Label>
                 <Label Text=" "></Label>
                 <Label Text=" "></Label>
                 <VerticalStackLayout HorizontalOptions="CenterAndExpand">
                     <Label Text="Save" TextColor="Black" FontAttributes="Bold"  FontSize="14" HorizontalOptions="Center"></Label>
                     <ImageButton Source="save.ico" Clicked="Button_Save"></ImageButton>
                 </VerticalStackLayout>
+                <Label Text=" "></Label>
+                <Label Text=" "></Label>
                 <Label Text=" "></Label>
                 <Label Text=" "></Label>
                 <VerticalStackLayout HorizontalOptions="CenterAndExpand">

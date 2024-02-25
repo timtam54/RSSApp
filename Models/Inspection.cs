@@ -45,6 +45,8 @@ namespace RssMob.Models
                 return false;
             if (InspectorID != other.InspectorID)
                 return false;
+            if (Inspector2ID != other.Inspector2ID)
+                return false;
             if (TestingInstruments != other.TestingInstruments)
                 return false;
             if (Photo != other.Photo)
@@ -60,11 +62,15 @@ namespace RssMob.Models
         public int BuildingID { get; set; }
         public int? InspectorID { get; set; }
         public Employee? Inspector { get; set; }
+
+        public int? Inspector2ID { get; set; }
         public string? TestingInstruments { get; set; }
         public string? Photo { get; set; }
 
         public List<SelectListItem> Insps { get; set; }
         public SelectListItem SelectInspectorID { get; set; }
+
+        public SelectListItem SelectInspector2ID { get; set; }
 
         public List<SelectListItem> Buildings { get; set; }
         public SelectListItem SelectBuidingID { get; set; }

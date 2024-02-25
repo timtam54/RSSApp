@@ -6,10 +6,13 @@ namespace RssMob.Views;
 
 public partial class RssMap : ContentPage, iRefreshData
 {
-	public RssMap(LoginPage dashboard)
+    int _LoginID;
+
+    public RssMap(LoginPage dashboard,int LoginID)
     {
         try
         {
+            _LoginID=LoginID;
             _Items = dashboard.Items;
             _dashboard = dashboard;
             InitializeComponent();
@@ -31,23 +34,38 @@ public partial class RssMap : ContentPage, iRefreshData
         }
         catch (Exception ex)
         {
-            var dd = ex;
+            DisplayAlert("Error.RssMap", "Error.RssMap:" + ex.Message, "OK");
         }
     }
-
+    private void Building_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+           // Button btn = (Button)sender;
+           // var InspectionID = btn.CommandParameter;
+            Navigation.PushAsync(new Views.SearchClientBuildingAddress(_dashboard._client));
+        }
+        catch (Exception ex)
+        {
+            DisplayAlert("Error.Inspections", "Error.Inspections.Building_Clicked:" + ex.Message, "OK");
+        }
+    }
     public async Task<bool> RefreshDataAsync()
     {
+        try { 
         await _dashboard.RefreshDataAsync();
         _Items = _dashboard.Items;
         return true;
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error.RssMap", "Error.RssMap.RefreshDataAsync:" + ex.Message, "OK");
+        }
+        return false;
     }
     async void AddNew_Clicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new Views.Inspect(0,  _dashboard._client, this));
-
-      //  await Navigation.PushAsync(new Views.SearchClientBuildingAddress( this, _dashboard._client));
-
-       // 
+        await Navigation.PushAsync(new Views.Inspect(0, _dashboard._client, this, _LoginID));
     }
     public void NewID(int id)
     {
@@ -66,25 +84,40 @@ public partial class RssMap : ContentPage, iRefreshData
 
     public async void Map_MapClicked(object sender, MapClickedEventArgs e)
     {
-        // new NavigationPage(new Inspections(inspectiondata));
+        try { 
         await Navigation.PopAsync();
-        _dashboard.OpenInsp();
+        _dashboard.OpenInsp(_LoginID);
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error.RssMap", "Error.RssMap.Map_MapClicked:" + ex.Message, "OK");
+        }
     }
     public async void Grid_Clicked(object sender, EventArgs e)
     {
-        // new NavigationPage(new Inspections(inspectiondata));
+        try { 
         await Navigation.PopAsync();
-        _dashboard.OpenInsp();
+        _dashboard.OpenInsp(_LoginID);
+        }
+        catch (Exception ex)
+        {
+          await  DisplayAlert("Error.RssMap", "Error.RssMap.Grid_Clicked:" + ex.Message, "OK");
+        }
     }
     // public List<Models.InspectionView> Items { get; private set; }
 
     public async void RefreshDataAsync(Microsoft.Maui.Controls.Maps.Map map)
     {
-       // Items = await _dashboard._client.Inspections();
+        try { 
         await AddLatLonPins(map);
         Location location = new Location(-31.9523, 115.8613);
         MapSpan mapSpan = new MapSpan(location, .5, .5);
         map.MoveToRegion(mapSpan);
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error.RssMap", "Error.RssMap.RefreshDataAsync:" + ex.Message, "OK");
+        }
     }
 
     private async Task AddLatLonPins(Microsoft.Maui.Controls.Maps.Map map)
@@ -150,14 +183,20 @@ public partial class RssMap : ContentPage, iRefreshData
         }
         catch (Exception ex)
         {
-            DisplayAlert("Error2", ex.Message, "Cancel");
+            await DisplayAlert("Error.RssMap", "Error.RssMap.AddLatLonPins:" + ex.Message, "OK");
         }
     }
 
     private async void Pin_MarkerClicked(object sender, PinClickedEventArgs e)
     {
+        try { 
         Pin Det = (Pin)sender;
         string InspectionID = Det.StyleId.ToString();
-        await Navigation.PushAsync(new Views.Inspect(Convert.ToInt32(InspectionID),  _dashboard._client,this));
+        await Navigation.PushAsync(new Views.Inspect(Convert.ToInt32(InspectionID),  _dashboard._client,this, _LoginID));
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error.RssMap", "Error.RssMap.Pin_MarkerClicked:" + ex.Message, "OK");
+        }
     }
 }

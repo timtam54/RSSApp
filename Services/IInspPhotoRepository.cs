@@ -9,7 +9,7 @@ namespace RssMob.Services
 {
     public interface IInspPhotoRepository
     {
-        Task<List<InspPhoto>> InspPhotos(int Inspequipid);
+        Task<List<InspPhoto>> InspPhotos(int Inspequipid, string SoureTable);
         Task<bool> Delete(int id);
     }
 }

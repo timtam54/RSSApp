@@ -9,7 +9,7 @@ namespace RssMob.Services
 {
     public interface IVersionRepository
     {
-        Task<List<VersionRpt>> Versions(int Inspectionid);
+        Task<List<VersionRpt>> Versions(int bid);
         Task<Version> Version(int Inspequipid);
 
         Task<Version> AddNew(Version inspEquip);

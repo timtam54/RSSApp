@@ -45,6 +45,10 @@
 
                 </VerticalStackLayout>
                 <Label Text=" "></Label>
+                <Label Text=" "></Label>
+                <Label Text=" "></Label>
+                <Label Text=" "></Label>
+
                 <VerticalStackLayout HorizontalOptions="CenterAndExpand">
                     <Label TextColor="Black" FontAttributes="Bold" FontSize="14" HorizontalOptions="Center"></Label>
                     <ImageButton Source="logout.ico"  Clicked="Button_Close"></ImageButton>

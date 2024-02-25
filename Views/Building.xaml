@@ -7,8 +7,12 @@
              x:DataType="ViewModel:Building"
              xmlns:ViewModel="clr-namespace:RssMob.Models"
              BackgroundColor="#0690b1">
-    <ScrollView VerticalOptions="FillAndExpand"  BackgroundColor="White">
+    <Grid RowDefinitions="50,*,Auto">
+
+        <ScrollView  Grid.Row="1" VerticalOptions="FillAndExpand"  BackgroundColor="White">
         <VerticalStackLayout>
+            <ActivityIndicator IsRunning="false" IsVisible="false" Color="Black" x:Name="Indi"></ActivityIndicator>
+
             <Label Text="Building Address:" FontSize="14"></Label>
             <Entry FontSize="14" Placeholder="Address"
             Text="{Binding Address}"
@@ -23,7 +27,84 @@
             <Picker FontSize="14"   Title="Client" x:Name="ClientID" ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectClientID, Mode=TwoWay}"
     
         ItemDisplayBinding="{Binding Text}" />
-            <Button Clicked="Button_Save" FontSize="14"  FontAttributes="Bold" Text="Submit"></Button>
+
+                <Label Text="Contact Number:" FontSize="14"></Label>
+                <Entry FontSize="14" Placeholder="Contact Name"
+Text="{Binding ContactName}"
+PlaceholderColor="Navy" />
+
+                <Label Text="Access Details:" FontSize="14"></Label>
+                <Entry FontSize="14" Placeholder="Access Details"
+Text="{Binding AccessDetails}"
+PlaceholderColor="Navy" />
+
+
+                <Label Text="Contact Name:" FontSize="14"></Label>
+                <Entry FontSize="14" Placeholder="Contact Number"
+Text="{Binding ContactNumber}"
+PlaceholderColor="Navy" />
+
+                <Label IsVisible="false" x:Name="lblUpload" FontSize="20" TextColor="red">Uploading image.  Please wait til complete....</Label>
+
+
+            <CarouselView HeightRequest="270" ItemsSource="{Binding BuildingPhotos}" x:Name="InspPhotosCarousel">
+                <CarouselView.ItemTemplate>
+                    <DataTemplate x:DataType="model:InspPhoto">
+
+
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                            <Label Text="  "></Label>
+                            <Label Text="  "></Label>
+                            <Label Text="  "></Label>
+                            <Label Text="  "></Label>
+                            <Label Text="  "></Label>
+                            <Label Text="  "></Label>
+                            <Label Text="  "></Label>
+                            <Label Text="  "></Label>
+                            <Image  Source="{Binding photoname}"
+               Aspect="AspectFill"
+               HeightRequest="250"
+               WidthRequest="250" 
+               HorizontalOptions="Center" />
+                            <ImageButton Grid.Column="1" HeightRequest="18" WidthRequest="18" CommandParameter="{Binding id}"  Clicked="Button_PhotoDelete" Source="delete.png"></ImageButton>
+                        </StackLayout>
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </CarouselView>
+
+
+          
         </VerticalStackLayout>
     </ScrollView>
+    <Grid Grid.Row="2"  >
+
+        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" >
+            <VerticalStackLayout HorizontalOptions="CenterAndExpand">
+                <Label Text="Save" FontAttributes="Bold" TextColor="Black" FontSize="14" HorizontalOptions="Center"></Label>
+                <ImageButton Source="save.ico" Clicked="SaveClose_Clicked"></ImageButton>
+            </VerticalStackLayout>
+
+            <Label Text=" "></Label>
+            <Label Text=" "></Label>
+            <Label Text=" "></Label>
+
+            <VerticalStackLayout HorizontalOptions="CenterAndExpand"  x:Name="btnAddPhoto">
+                <Label  TextColor="Black" FontAttributes="Bold" Text="Add Photo" FontSize="14"  HorizontalOptions="Center"></Label>
+                <ImageButton Clicked="Button_PhotoAdd" Source="add.ico" ></ImageButton>
+            </VerticalStackLayout>
+
+                <Label Text=" "></Label>
+                <Label Text=" "></Label>
+                <Label Text=" "></Label>
+
+                <VerticalStackLayout HorizontalOptions="CenterAndExpand"  x:Name="btnInspections">
+                    <Label  TextColor="Black" FontAttributes="Bold" Text="Inspections" FontSize="14"  HorizontalOptions="Center"></Label>
+                    <ImageButton Clicked="Inspections_Clicked" Source="versions.ico" ></ImageButton>
+                </VerticalStackLayout>
+
+
+            </HorizontalStackLayout>
+
+    </Grid>
+    </Grid>
 </ContentPage>

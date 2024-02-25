@@ -67,6 +67,16 @@ namespace RssMob.Services
                 {
                     string content = response.Content.ReadAsStringAsync().Result;
                     inspections = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Building>>(content);
+                    foreach (var item in inspections)
+                    {
+                        var mm = item.BuildingName;
+                        var mms = mm.Split(new char[] { Char.Parse("~") }, StringSplitOptions.RemoveEmptyEntries);
+                        if (mms.Length > 1)
+                        {
+                            item.ClientName = mms[0];
+                            item.BuildingName = mms[1];
+                        }
+                    }
                     return await Task.FromResult(inspections);
                 }
             }

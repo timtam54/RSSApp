@@ -10,7 +10,6 @@ public partial class LoginPage : ContentPage
     readonly EmployeeDatabase _rssDatabase;
 
     readonly ILoginRepository _loginRepository = new LoginServices();
-    //Dashboard _dashboard;
 
     public LoginPage(EmployeeDatabase rssDatabase)//, Dashboard dashboard
     {
@@ -45,14 +44,14 @@ public partial class LoginPage : ContentPage
                 if (employee != null)
                 {
                     await RefreshDataAsync();
-                    await Navigation.PushAsync(new RssMap(this));
+                    await Navigation.PushAsync(new RssMap(this,employee.id));
                 }
             }
         }
     }
     public async void OpenMap()
     {
-         await Navigation.PushAsync(new Views.RssMap(this));
+         await Navigation.PushAsync(new Views.RssMap(this,employee.id));
     }
 
     public async Task Logout()
@@ -61,10 +60,10 @@ public partial class LoginPage : ContentPage
         await Navigation.PopAsync();
     }
 
-    public async void OpenInsp()
+    public async void OpenInsp(int LoginID)
     {
         // await Navigation.PushAsync(new Views.RssMap(this));
-        await Navigation.PushAsync(new Views.Inspections(this));
+        await Navigation.PushAsync(new Views.Inspections(this, LoginID));
     }
     public readonly IInspectionRepository _client = new InspectionServices();
     public List<Models.InspectionView> Items;
@@ -82,7 +81,7 @@ public partial class LoginPage : ContentPage
     public DateTime DteFrom;
     public DateTime DteTo;
 
-    Employee employee;
+    public Employee employee;
     async void btnLogin_Clicked(System.Object sender, System.EventArgs e)
     {
         string email = txtEmail.Text;
@@ -101,7 +100,7 @@ public partial class LoginPage : ContentPage
                 employee.id = 0;
             await _rssDatabase.SaveItemAsync(employee);
             await RefreshDataAsync();
-            await Navigation.PushAsync(new RssMap(this));
+            await Navigation.PushAsync(new RssMap(this, employee.id));
         }
         else
         {

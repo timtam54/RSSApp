@@ -36,6 +36,9 @@
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
+		<MauiImage Update="Resources\Images\building.jpg">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</MauiImage>
 		<MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
 
 		<!-- Custom Fonts -->
@@ -47,10 +50,12 @@
 
 	<ItemGroup>
 	  <Compile Remove="Views\Dashboard.xaml.cs" />
+	  <Compile Remove="Views\InspVersion.xaml.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <MauiXaml Remove="Views\Dashboard.xaml" />
+	  <MauiXaml Remove="Views\InspVersion.xaml" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -89,6 +94,9 @@
 	  <MauiXaml Update="Views\EquipTestHazardDet.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\EquipTypeSelect.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\EquipTypeTest.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -105,9 +113,6 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\InspEquipTestDet.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\InspVersion.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\InspVersions.xaml">
@@ -136,10 +141,7 @@
     <TcpPort>58181</TcpPort>
     <ProvisioningType>manual</ProvisioningType>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)'=='net7.0-ios'">
-    <ProvisioningType>automatic</ProvisioningType>
-    <CodesignKey>iPhone Developer</CodesignKey>
-  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
     <MtouchLink>None</MtouchLink>
   </PropertyGroup>

@@ -1,5 +1,4 @@
-using Newtonsoft.Json;
-using RestSharp;
+
 
 namespace RssMob.Views;
 
@@ -9,13 +8,21 @@ public partial class Inspections : ContentPage, iRefreshData
 
     bool Loading = true;
     readonly LoginPage _dashboard;
-    public Inspections(LoginPage dashboard)
+    int _LoginID;
+    public Inspections(LoginPage dashboard,int LoginID)
     {
+        try { 
         Loading = true;
         _dashboard = dashboard;
+            _LoginID = LoginID;
         _Items = dashboard.Items;
         InitializeComponent();
         Loaded += Inspections_Loaded;
+        }
+        catch (Exception ex)
+        {
+            DisplayAlert("Error.Inspections", "Error.Inspections:" + ex.Message, "OK");
+        }
     }
     public void NewID(int id)
     {
@@ -24,27 +31,45 @@ public partial class Inspections : ContentPage, iRefreshData
     
     private async void entry_TextChanged(object sender, TextChangedEventArgs e)
     {
+        try { 
        _dashboard.search = e.NewTextValue;
         if (_dashboard.search == null)
             return;
         await RefreshDataAsync();
-       
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error.Inspections", "Error.Inspections.entry_TextChanged:" + ex.Message, "OK");
+        }
     }
     public async Task<bool> RefreshDataAsync()
     {
-        dteFrom.Date=_dashboard.DteFrom;
+        try { 
+       dteFrom.Date=_dashboard.DteFrom;
         dteTo.Date = _dashboard.DteTo;
         await _dashboard.RefreshDataAsync();
         _Items = _dashboard.Items;
         Reload();
         return true;
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error.Inspections", "Error.Inspections.RefreshDataAsync:" + ex.Message, "OK");
+        }
+        return false;
     }
     private void Inspections_Loaded(object sender, EventArgs e)
     {
+        try { 
         dteFrom.Date = _dashboard.DteFrom;
         dteTo.Date = _dashboard.DteTo;
         Reload();
         Loading = false;
+        }
+        catch (Exception ex)
+        {
+             DisplayAlert("Error.Inspections", "Error.Inspections.Inspections_Loaded:" + ex.Message, "OK");
+        }
     }
    public void Reload()
     {
@@ -53,24 +78,38 @@ public partial class Inspections : ContentPage, iRefreshData
     }
     async void Button_InspectItem(System.Object sender, System.EventArgs e)
     {
+        try { 
         Button btn = (Button)sender;
         var InspectionID = btn.CommandParameter;
-        await Navigation.PushAsync(new Views.Inspect(Convert.ToInt32(InspectionID),  _dashboard._client,this));
+        await Navigation.PushAsync(new Views.Inspect(Convert.ToInt32(InspectionID),  _dashboard._client,this, _LoginID));
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error.Inspections", "Error.Inspections.Button_InspectItem:" + ex.Message, "OK");
+        }
     }
 
     async void Button_MapView(System.Object sender, System.EventArgs e)
     {
+        try { 
         await Navigation.PopAsync();//.PushAsync(new Views.maps(_Items));
         _dashboard.OpenMap();
-
+        }
+        catch (Exception ex)
+        {
+          await  DisplayAlert("Error.Inspections", "Error.Inspections.Button_MapView:" + ex.Message, "OK");
+        }
     }
 
     async void AddNew_Clicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new Views.Inspect(0, _dashboard._client, this));
-        //await Navigation.PushAsync(new Views.SearchClientBuildingAddress(this, _dashboard._client));
-        //        await Navigation.PushAsync(new Views.Inspect(0, "New", _dashboard._client,this));
-
+        try { 
+        await Navigation.PushAsync(new Views.Inspect(0, _dashboard._client, this, _LoginID));
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error.Inspections", "Error.Inspections.AddNew_Clicked:" + ex.Message, "OK");
+        }
     }
 
     async void Logout_Clicked(object sender, EventArgs e)
@@ -81,17 +120,40 @@ public partial class Inspections : ContentPage, iRefreshData
 
     private async void dteFrom_DateSelected(object sender, DateChangedEventArgs e)
     {
+        try { 
         if (Loading) return;
         _dashboard.DteFrom = dteFrom.Date;
         await RefreshDataAsync();
-
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error.Inspections", "Error.Inspections.dteFrom_DateSelected:" + ex.Message, "OK");
+        }
     }
 
     private async void dteTo_DateSelected(object sender, DateChangedEventArgs e)
     {
+        try { 
         if (Loading) return;
         _dashboard.DteTo = dteTo.Date;
         await RefreshDataAsync();
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error.Inspections", "Error.Inspections.dteTo_DateSelected:" + ex.Message, "OK");
+        }
+    }
 
+    private void Building_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+
+            Navigation.PushAsync(new Views.SearchClientBuildingAddress( _dashboard._client));
+        }
+        catch (Exception ex)
+        {
+             DisplayAlert("Error.Inspections", "Error.Inspections.Building_Clicked:" + ex.Message, "OK");
+        }
     }
 }

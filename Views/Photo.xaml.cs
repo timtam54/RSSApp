@@ -8,25 +8,44 @@ using SkiaSharp;
 
 public partial class Photo : ContentPage
 {
+    public enum PhotoType{
+        InspEquip=0,
+        Building = 1
+    }
+    PhotoType photoType;
     //https://www.freeiconspng.com/downloadimg/1445
-    public int _InspEquipID;
-    public iRefreshData inspEquipPhotos;
-    public Photo(int InspEquipID, iRefreshData _inspEquipPhotos)
+    public int _id;
+    public iRefreshData par;
+    public Photo(int id, iRefreshData _par, PhotoType _photoType)
     {
+        try { 
         InitializeComponent();
-        _InspEquipID = InspEquipID;
-        inspEquipPhotos = _inspEquipPhotos;
+        _id = id;
+        par = _par;
+            photoType = _photoType;
         uploadImage = new UploadImage();
+        }
+        catch (Exception ex)
+        {
+             DisplayAlert("Error.Photo", "Error.Photo:" + ex.Message, "OK");
+        }
     }
     UploadImage uploadImage { get; set; }
 
     void Button_Clicked(System.Object sender, System.EventArgs e)
     {
+        try { 
         TakePhoto();
+        }
+        catch (Exception ex)
+        {
+            DisplayAlert("Error.Photo", "Error.Photo.Button_Clicked:" + ex.Message, "OK");
+        }
     }
 
     public async void TakePhoto()
     {
+        try { 
         if (MediaPicker.Default.IsCaptureSupported)
         {
             Indi.IsVisible = true;
@@ -36,7 +55,6 @@ public partial class Photo : ContentPage
             FileResult img = await MediaPicker.Default.CapturePhotoAsync();
             if (img != null)
             {
-
                 Models.ImageFile imfl = await uploadImage.GetImageFile(img, true);
 
                 /*  Stream stream = await img.OpenReadAsync();
@@ -54,20 +72,26 @@ public partial class Photo : ContentPage
                           ContentType = img.ContentType,
                           FileName = Guid.NewGuid().ToString() + "." + Path.GetExtension(img.FileName)
                       };*/
-                Models.ImageFile imagefile = await uploadImage.UploadToServer(imfl, 1, _InspEquipID);
+                Models.ImageFile imagefile = await uploadImage.UploadToServer(imfl, (photoType == PhotoType.InspEquip) ? 1 : 3, _id);
                 Image_Upload.Source = ImageSource.FromStream(() => uploadImage.ByteArrayStream(uploadImage.StringToByteBase64(imfl.byteBase64)));// imagefile.byteBase64)));
 
                 //              Image_Upload.Source = ImageSource.FromStream(() => uploadImage.ByteArrayStream(uploadImage.StringToByteBase64(imagefile.byteBase64)));
 
-                await inspEquipPhotos.RefreshDataAsync();
-               
+                await par.RefreshDataAsync();
+
                 await Application.Current.MainPage.Navigation.PopAsync();
-                
+
             }
             Indi.IsVisible = false;
             Indi.IsRunning = false;
             lblUpload.IsVisible = false;
         }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error.Photo", "Error.Photo.TakePhoto:" + ex.Message, "OK");
+        }
+    
     }
     //installled sksharp just for this method
     
@@ -78,6 +102,7 @@ public partial class Photo : ContentPage
 
     async void Gallery_Clicked(object sender, EventArgs e)
     {
+        try { 
         ActivityIndicator activityIndicator = (ActivityIndicator)Indi;
         activityIndicator. IsRunning = true;
         lblUpload.IsVisible = true;
@@ -87,15 +112,20 @@ public partial class Photo : ContentPage
         {
           var  imagefile = await uploadImage.GetImageFile(img, false);
 
-             imagefile = await uploadImage.UploadToServer(imagefile, 1, _InspEquipID);
+             imagefile = await uploadImage.UploadToServer(imagefile,(photoType== PhotoType.InspEquip)? 1:3, _id);
             Image_Upload.Source = ImageSource.FromStream(() => uploadImage.ByteArrayStream(uploadImage.StringToByteBase64(imagefile.byteBase64)));
             
             
-            await inspEquipPhotos.RefreshDataAsync();
+            await par.RefreshDataAsync();
             await Application.Current.MainPage.Navigation.PopAsync();
         }
          activityIndicator.IsRunning=false;
         activityIndicator.IsVisible = false;
         activityIndicator.IsRunning = false;
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error.Photo", "Error.Photo.Gallery_Clicked:" + ex.Message, "OK");
+        }
     }
 }

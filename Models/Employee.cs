@@ -19,7 +19,6 @@ namespace RssMob.Models
         }
         [PrimaryKey]
         public int id { get; set; }
-        //        [Display(Name = "Given Name")]
         public string? Given { get; set; }
         public string? Surname { get; set; }
         public bool? Inspector { get; set; }

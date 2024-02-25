@@ -27,11 +27,12 @@ public partial class InspEquip : ContentPage,iRefreshData
         }
         catch (Exception ex)
         {
-            DisplayAlert("Error",ex.Message,"OK");
+            DisplayAlert("Error.InspEquip", "Error.InspEquip:" + ex.Message,"OK");
         }
     }
     protected async override  void OnDisappearing()
     {
+        try { 
         Item = (Models.InspEquip)BindingContext;
         if (!Item.Equals(Orig))
         {
@@ -39,7 +40,12 @@ public partial class InspEquip : ContentPage,iRefreshData
             {
                 await SaveData();
             }
-            //return;
+            
+        }
+        }
+        catch (Exception ex)
+        {
+           await DisplayAlert("Error.InspEquip", "Error.InspEquip.OnDisappearing:" + ex.Message, "OK");
         }
         base.OnDisappearing();
     }
@@ -47,12 +53,15 @@ public partial class InspEquip : ContentPage,iRefreshData
 
     public void NewID(int id)
     {
-        ;
+        Item.EquipTypeID=id;
+        setEquipTypeID(id);
+      //  Item.SelEquipType=text;
     }
     IInspPhotoRepository ip = new InspPhotoServices();
     Models.InspEquip Item; Models.InspEquip Orig;
     List<Models.InspPhoto> Items;
     bool Loading = true;
+    List<EquipType> equiptype;
     public async Task<bool> RefreshDataAsync()
     {
         try
@@ -68,15 +77,15 @@ public partial class InspEquip : ContentPage,iRefreshData
             }
             else
                 Item = await _inspitems.InspItem(_id);
-            //if (Orig ==null)
+
                 Orig = (Models.InspEquip)Item.Clone();
-            List<EquipType> equiptype = await (new EquipTypeServices()).EquipTypes();
+            equiptype = await (new EquipTypeServices()).EquipTypes();
             List<Models.InspEquipTypeTestRpt> It;
-            Item.Et = (from ins in equiptype orderby ins.EquipTypeDesc select new SelectListItem { Text = ins.EquipTypeDesc, Value = ins.id }).ToList();
+            //Item.Et = (from ins in equiptype orderby ins.EquipTypeDesc select new SelectListItem { Text = ins.EquipTypeDesc, Value = ins.id }).ToList();
             if (_id == 0)
             {
-                Item.SelEquipType = Item.Et.FirstOrDefault();
-                EquipTypeName = Item.SelEquipType.Text;
+                Item.SelEquipType =equiptype.FirstOrDefault().EquipTypeDesc;
+             //   EquipTypeName = Item.SelEquipType.Text;
                 Items = new List<InspPhoto>();
                 InspPhotosCarousel.IsVisible = false;
                 InspPhotosCarousel.ItemsSource = Items;
@@ -90,9 +99,9 @@ public partial class InspEquip : ContentPage,iRefreshData
             }
             else
             {
-                Item.SelEquipType = Item.Et.Where(i => i.Value == Item.EquipTypeID).FirstOrDefault();
-                EquipTypeName = Item.SelEquipType.Text;
-                Items = await ip.InspPhotos(_id);
+                Item.SelEquipType = equiptype.Where(i => i.id == Item.EquipTypeID).FirstOrDefault().EquipTypeDesc;
+//                EquipTypeName = Item.SelEquipType.Text;
+                Items = await ip.InspPhotos(_id, "I");
                 foreach (var item in Items)
                 {
                     item.photoname = "https://rssblob.blob.core.windows.net/rssimage/" + item.photoname;
@@ -115,7 +124,7 @@ public partial class InspEquip : ContentPage,iRefreshData
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error",ex.Message,"Cancel");
+            await DisplayAlert("Error.InspEquip", "Error.InspEquip.RefreshDataAsync:" + ex.Message,"Cancel");
             return false;
         }
         finally
@@ -123,15 +132,16 @@ public partial class InspEquip : ContentPage,iRefreshData
             Loading = false;
         }
     }
+
     IInspEquipTestRepository _client = new InspEquipTestService();
     async void Button_PhotoAdd(System.Object sender, System.EventArgs e)
     {
         try { 
-        await Navigation.PushAsync(new Photo(_id, this));
+        await Navigation.PushAsync(new Photo(_id, this, Photo.PhotoType.InspEquip));
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", ex.Message, "Cancel");
+            await DisplayAlert("Error.InspEquip", "Error.InspEquip.Button_PhotoAdd:"+ex.Message, "Cancel");
             
         }
     }
@@ -140,11 +150,11 @@ public partial class InspEquip : ContentPage,iRefreshData
     {
         try
         {
-            await Navigation.PushAsync(new Photo(_id, this));
+            await Navigation.PushAsync(new Photo(_id, this, Photo.PhotoType.InspEquip));
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", ex.Message, "Cancel");
+            await DisplayAlert("Error.InspEquip", "Error.InspEquip.Image_Clicked:" + ex.Message, "Cancel");
 
         }
     }
@@ -152,7 +162,7 @@ public partial class InspEquip : ContentPage,iRefreshData
     {
         try
         {
-            await Navigation.PushAsync(new Photo(_id, this));
+            await Navigation.PushAsync(new Photo(_id, this, Photo.PhotoType.InspEquip));
         }
         catch (Exception ex)
         {
@@ -160,7 +170,7 @@ public partial class InspEquip : ContentPage,iRefreshData
 
         }
     }
-    string EquipTypeName;
+   // string EquipTypeName;
     //async void Photos_Clicked(System.Object sender, System.EventArgs e)
     //{
     //    await Navigation.PushAsync(new Views.InspEquipPhotos(_id));// Convert.ToInt32(_ID)));
@@ -192,8 +202,9 @@ public partial class InspEquip : ContentPage,iRefreshData
         Indi.IsRunning = true;
         try
         {
-            Models.InspEquip Item = (Models.InspEquip)BindingContext;
-            Item.EquipTypeID = Item.SelEquipType.Value;
+          
+            Item = (Models.InspEquip)BindingContext;
+            //Item.EquipTypeID = Item.SelEquipType.Value;
             if (Item.id != 0)
                 await _inspitems.Update(Item);
             else
@@ -219,7 +230,7 @@ public partial class InspEquip : ContentPage,iRefreshData
         Button btn = (Button)sender;
         var id = btn.CommandParameter;
         var insp = Item.InspEquipTypeTests.Where(i => i.id == Convert.ToInt32(id)).FirstOrDefault();
-        await Navigation.PushAsync(new Views.InspEquipTestDet(this, Convert.ToInt32(id)/*insp.InspEquipID*/, _client, Item.EquipTypeID, _id, Item.SelEquipType.Text));
+        await Navigation.PushAsync(new Views.InspEquipTestDet(this, Convert.ToInt32(id)/*insp.InspEquipID*/, _client, Item.EquipTypeID, _id, Item.SelEquipType));
         }
         catch (Exception ex)
         {
@@ -249,7 +260,7 @@ public partial class InspEquip : ContentPage,iRefreshData
 
     async void Button_InspTestAddNew(System.Object sender, System.EventArgs e)
     {
-        await Navigation.PushAsync(new Views.InspEquipTestDet(this, Convert.ToInt32(0), _client, Item.SelEquipType.Value, _id,Item.SelEquipType.Text));
+        await Navigation.PushAsync(new Views.InspEquipTestDet(this, Convert.ToInt32(0), _client, Item.EquipTypeID, _id,Item.SelEquipType));
 
     }
 
@@ -303,12 +314,12 @@ public partial class InspEquip : ContentPage,iRefreshData
             ;
         else
         {
-            if (!Item.SelEquipType.Text.Contains(" "))
-                Item.SerialNo = Item.SelEquipType.Text.Substring(0, 1);
+            if (!Item.SelEquipType.Contains(" "))
+                Item.SerialNo = Item.SelEquipType.Substring(0, 1);
             else
             {
                 // Item.SerialNo = "";
-                string[] words = Item.SelEquipType.Text.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+                string[] words = Item.SelEquipType.Split(" ", StringSplitOptions.RemoveEmptyEntries);
                 foreach (string word in words)
                 {
                     if (word.Length > 0)
@@ -336,9 +347,20 @@ public partial class InspEquip : ContentPage,iRefreshData
         this.SerialNo.Text = Item.SerialNo;
     }
 
-    private void EquipTypeID_SelectedIndexChanged(object sender, EventArgs e)
-    {
+    //private void EquipTypeID_SelectedIndexChanged(object sender, EventArgs e)
+    //{
        
-        GetSN();
+    //    GetSN();
+    //}
+    public void setEquipTypeID(int id)
+    {
+      //  Item.SelEquipType = Item.Et.Select(o => o.Value == id).FirstOrDefault();
+        Item.SelEquipType = equiptype.Where(i => i.id == id).FirstOrDefault().EquipTypeDesc;
+        SelEquipType.Text = Item.SelEquipType;
+    }
+    private async void btnSelEquipType_Clicked(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new EquipTypeSelect(this, equiptype));
+        //await Navigation.PushAsync(new EquipTypeView( this ));
     }
 }

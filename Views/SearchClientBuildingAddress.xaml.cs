@@ -20,30 +20,49 @@ public partial class SearchClientBuildingAddress : ContentPage, iRefreshData
     public int BuildingID = 0;
     public SearchClientBuildingAddress(Inspect par, IInspectionRepository insp)
 	{
+        try { 
 		InitializeComponent();
         _par=  par;
         _insp = insp;
-        Loaded += Inspections_Loaded;
-        
-    }
+        }
+        catch (Exception ex)
+        {
+             DisplayAlert("Error.SearchClientBuildingAddress", "Error.SearchClientBuildingAddress:" + ex.Message, "OK");
+        }
 
+    }
+    public SearchClientBuildingAddress( IInspectionRepository insp)
+    {
+        InitializeComponent();
+      
+        _insp = insp;
+     
+
+    }
     public void NewID(int id)
     {
         ;
     }
     public async Task<bool> RefreshDataAsync()
     {
-        //await _dashboard.RefreshDataAsync();
+        try { 
         _Items =await _bui.Buildings(search);
         return true;
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error.RssMap", "Error.searchclientbuiding.RefreshDataAsync:" + ex.Message, "OK");
+        }
+        return false;
     }
-    private  void  Inspections_Loaded(object sender, EventArgs e)
-    {
+    //private  void  Inspections_Loaded(object sender, EventArgs e)
+    //{
        
-    }
+    //}
     string search = ""; 
     private async void entry_TextChanged(object sender, TextChangedEventArgs e)
     {
+        try { 
         search = e.NewTextValue;
         if (search == null)
             return;
@@ -83,6 +102,12 @@ public partial class SearchClientBuildingAddress : ContentPage, iRefreshData
         InspectionList.ItemsSource = _Items;
         NewList.ItemsSource = _New;
         BindingContext = _Items;
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error.SearcClientBuildingAddress", "Error.SearcClientBuildingAddress.entry_textchanged:" + ex.Message, "Cancel");
+
+        }
     }
     public class MainTextMatchedSubstring
     {
@@ -137,16 +162,7 @@ public partial class SearchClientBuildingAddress : ContentPage, iRefreshData
         BindingContext = _Items;
     }*/
 
-    private async void Button_Clicked(object sender, EventArgs e)
-    {
-        Button button = sender as Button;
-        
-        
-       await _par.SetBuildingID(Convert.ToInt32( button.CommandParameter));
-        await Navigation.PopAsync();
-        await _par.SaveNewInspDetails();
-        await Navigation.PopAsync();
-    }
+
 
     private async void Button_Clicked_1(object sender, EventArgs e)
     {
@@ -156,7 +172,6 @@ public partial class SearchClientBuildingAddress : ContentPage, iRefreshData
         string url = "https://www.google.com/maps/search/?api=1&query=Google&query_place_id=" + placeid;
         Uri uri = new Uri(url);
         await Browser.Default.OpenAsync(uri, BrowserLaunchMode.SystemPreferred);
-
     }
 
     string Address;
@@ -180,5 +195,20 @@ public partial class SearchClientBuildingAddress : ContentPage, iRefreshData
        await _par.SetBuildingID(newbd.id);
         await _par.SaveNewInspDetails();
         await Navigation.PopAsync();
+    }
+
+    private void EditBuilding(object sender, EventArgs e)
+    {
+        Button button = sender as Button;
+        if (_par == null)
+        {
+            int Buildingid = Convert.ToInt32(button.CommandParameter);
+            Navigation.PushAsync(new Views.Building(this, Buildingid, _bui, _insp));
+            return;
+        }
+        _par.SetBuildingID(Convert.ToInt32(button.CommandParameter));
+        Navigation.PopAsync();
+        _par.SaveNewInspDetails();
+        Navigation.PopAsync();
     }
 }

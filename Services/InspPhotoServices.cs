@@ -29,11 +29,11 @@ namespace RssMob.Services
 
 
         string url = "https://roofsafetysolutions.azurewebsites.net/api/inspphotos/";
-        public async Task<List<InspPhoto>> InspPhotos(int Inspequipid)
+        public async Task<List<InspPhoto>> InspPhotos(int id,string SoureTable)
         {
             var ret = new List<InspPhoto>();
             var client = new HttpClient();
-            client.BaseAddress = new Uri(url + Inspequipid.ToString());
+            client.BaseAddress = new Uri(url + id.ToString()+"~"+SoureTable);
             HttpResponseMessage response = await client.GetAsync("");
             if (response.IsSuccessStatusCode)
             {

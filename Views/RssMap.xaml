@@ -17,16 +17,32 @@
                 <ImageButton Clicked="Grid_Clicked" Source="grid.ico" ></ImageButton>
             </VerticalStackLayout>
                 <Label Text=" "></Label>
-            <VerticalStackLayout HorizontalOptions="CenterAndExpand">
+                <Label Text=" "></Label>
+                <Label Text=" "></Label>
+                <Label Text=" "></Label>
+
+                <VerticalStackLayout HorizontalOptions="CenterAndExpand">
                 <Label Text="Add New" TextColor="Black"  FontAttributes="Bold" FontSize="14"  HorizontalOptions="Center"></Label>
                 <ImageButton Clicked="AddNew_Clicked" Source="add.ico" ></ImageButton>
             </VerticalStackLayout>
                 <Label Text=" "></Label>
+                <Label Text=" "></Label>
+                <Label Text=" "></Label>
+                <Label Text=" "></Label>
+
                 <VerticalStackLayout HorizontalOptions="CenterAndExpand">
                 <Label Text="Logout" FontSize="14"  FontAttributes="Bold" TextColor="Black"  HorizontalOptions="Center"></Label>
                 <ImageButton Source="logout.ico" Clicked="Logout_Clicked"></ImageButton>
             </VerticalStackLayout>
-        </HorizontalStackLayout> 
+
+                <Label Text=" "></Label>
+                <Label Text=" "></Label>
+
+                <VerticalStackLayout HorizontalOptions="CenterAndExpand">
+                    <Label Text="Buildings" FontSize="14" TextColor="Black"  HorizontalOptions="Center"></Label>
+                    <ImageButton Source="building.jpg" Clicked="Building_Clicked"></ImageButton>
+                </VerticalStackLayout>
+            </HorizontalStackLayout> 
     </Grid>
   
     </Grid>

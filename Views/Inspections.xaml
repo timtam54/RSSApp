@@ -66,6 +66,7 @@
             </VerticalStackLayout>
                 <Label Text=" "></Label>
                 <Label Text=" "></Label>
+             
                 <VerticalStackLayout HorizontalOptions="CenterAndExpand">
                     <Label Text="Add New" TextColor="Black"  FontSize="14"  HorizontalOptions="Center"></Label>
                     <ImageButton Clicked="AddNew_Clicked" Source="add.ico" ></ImageButton>
@@ -73,10 +74,21 @@
                 </VerticalStackLayout>
                 <Label Text=" "></Label>
                 <Label Text=" "></Label>
+               
                 <VerticalStackLayout HorizontalOptions="CenterAndExpand">
                     <Label Text="Logout" FontSize="14" TextColor="Black"  HorizontalOptions="Center"></Label>
-                <ImageButton Source="logout.ico" Clicked="Logout_Clicked"></ImageButton>
-            </VerticalStackLayout>
+                 <ImageButton Source="logout.ico" Clicked="Logout_Clicked"></ImageButton>
+                </VerticalStackLayout>
+            
+                    <Label Text=" "></Label>
+                    <Label Text=" "></Label>
+
+                    <VerticalStackLayout HorizontalOptions="CenterAndExpand">
+                        <Label Text="Buildings" FontSize="14" TextColor="Black"  HorizontalOptions="Center"></Label>
+                        <ImageButton Source="building.jpg" Clicked="Building_Clicked"></ImageButton>
+                    </VerticalStackLayout>
+            
+            
         </HorizontalStackLayout>
 
     </Grid>

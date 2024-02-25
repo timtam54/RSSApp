@@ -12,19 +12,32 @@ public partial class EquipTestHazardDet : ContentPage,iRefreshData
     int _EquipTypeTestID;
     public EquipTestHazardDet(iRefreshData par, int id, IETTestHazardRepository items, int EquipTypeTestID)
 	{
+        try { 
          _par = par;
         _EquipTypeTestID = EquipTypeTestID;
         _items = items;
         _id = id;
         InitializeComponent();
         RefreshDataAsync();
+        }
+        catch (Exception ex)
+        {
+             DisplayAlert("Error.EquipTestHazardDet", "Error.EquipTestHazardDet:" + ex.Message, "OK");
+        }
     }
     public void NewID(int id)
     {
+        try { 
         Loading = true;
         Item.HazardID = id;
         Item.SelHazard = Item.Hazards.Where(i => i.Value == Item.HazardID).FirstOrDefault();
         BindingContext = Item;
+        
+        }
+        catch (Exception ex)
+        {
+            DisplayAlert("Error.EquipTestHazardDet", "Error.NewID:" + ex.Message, "OK");
+        }
         Loading = false;
     }
 
@@ -32,6 +45,7 @@ public partial class EquipTestHazardDet : ContentPage,iRefreshData
     Models.EquipTypeTestHazards Item;
     public async Task<bool> RefreshDataAsync()
     {
+        try { 
         Loading = true;
         if (_id == 0)
         {
@@ -62,6 +76,11 @@ public partial class EquipTestHazardDet : ContentPage,iRefreshData
 
         }
         BindingContext = Item;
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error.EquipTestHazardDet", "Error.RefreshDataAsync:" + ex.Message, "OK");
+        }
         Loading = false;
         return true;
     }
@@ -76,6 +95,7 @@ public partial class EquipTestHazardDet : ContentPage,iRefreshData
 
     async void SaveClose_Clicked(System.Object sender, System.EventArgs e)
     {
+        try { 
         Models.EquipTypeTestHazards Item = (Models.EquipTypeTestHazards)BindingContext;
         Item.HazardID = Item.SelHazard.Value;
         if (Item.id != 0)
@@ -83,11 +103,18 @@ public partial class EquipTestHazardDet : ContentPage,iRefreshData
         else
           await _items.AddNew(Item);
         _par.RefreshDataAsync();
+       
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error.EquipTestHazardDet", "Error.SaveClose_Clicked:" + ex.Message, "OK");
+        }
         await Application.Current.MainPage.Navigation.PopAsync();
     }
     bool Loading = true;
     async void HazardID_SelectedIndexChanged(object sender, EventArgs e)
     {
+        try { 
         if (Loading)
             return;
         Picker pk = (Picker)sender;
@@ -96,6 +123,11 @@ public partial class EquipTestHazardDet : ContentPage,iRefreshData
         if (ss == "-Add New-")
         {
             await Navigation.PushAsync(new Views.HazardDet(this, 0));
+        }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error.EquipTestHazardDet", "Error.HazardID_SelectedIndexChanged:" + ex.Message, "OK");
         }
     }
 }

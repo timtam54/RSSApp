@@ -13,6 +13,7 @@ public partial class EquipTypeTest : ContentPage, iRefreshData
     int _id;
     public EquipTypeTest(iRefreshData par,string EquipType,int EquipTypeID,int id)
 	{
+        try { 
         _par = par;
         _EquipType = EquipType;
         _EquipTypeID = EquipTypeID;
@@ -20,6 +21,12 @@ public partial class EquipTypeTest : ContentPage, iRefreshData
         InitializeComponent();
         Title = "Add/Edit Test for " + EquipType;
         RefreshDataAsync();
+        }
+        catch (Exception ex)
+        {
+             DisplayAlert("Error.EquipTypeTest", "Error.EquipTypeTest:" + ex.Message, "OK");
+        }
+
     }
     public void NewID(int id)
     {
@@ -31,6 +38,7 @@ public partial class EquipTypeTest : ContentPage, iRefreshData
     }
     async void Button_Save(System.Object sender, System.EventArgs e)
     {
+        try { 
         bool newrec;
         Models.EquipTypeTest Item = (Models.EquipTypeTest)BindingContext;
         if (Item.id != 0)
@@ -52,6 +60,11 @@ public partial class EquipTypeTest : ContentPage, iRefreshData
             _par.NewID(_id);
             await Application.Current.MainPage.Navigation.PopAsync();
         }
+        }
+        catch (Exception ex)
+        {
+           await DisplayAlert("Error.EquipTypeTest", "Error.Button_Save:" + ex.Message, "OK");
+        }
     }
     async void Button_AddNew(System.Object sender, System.EventArgs e)
     {
@@ -63,6 +76,7 @@ public partial class EquipTypeTest : ContentPage, iRefreshData
     Services.IEquipTypeTestRepository etr=new Services.EquipTypeTestServices();
     public async Task<bool> RefreshDataAsync()
     {
+        try { 
         List<Models.EquipTypeTestHazards> Its;
         if (_id == 0)
         {
@@ -89,20 +103,37 @@ public partial class EquipTypeTest : ContentPage, iRefreshData
         }
         BindingContext = Item;
         return true;
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error.EquipTypeTest", "Error.RefreshDataAsync:" + ex.Message, "OK");
+        }
+        return false;
     }
     async void Button_HazardDetails(System.Object sender, System.EventArgs e)
     {
+        try { 
         Button btn = (Button)sender;
         var id = btn.CommandParameter;
         await Navigation.PushAsync(new Views.EquipTestHazardDet(this, Convert.ToInt32(id), _client, _id));
-
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error.EquipTypeTest", "Error.Button_HazardDetails:" + ex.Message, "OK");
+        }
     }
 
     async void Button_DeleteHazard(System.Object sender, System.EventArgs e)
     {
+        try { 
         ImageButton btn = (ImageButton)sender;
         var id = btn.CommandParameter;
         await _client.Delete(Convert.ToInt32(id));
-        RefreshDataAsync();
+        await RefreshDataAsync();
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error.EquipTypeTest", "Error.Button_DeleteHazard:" + ex.Message, "OK");
+        }
     }
 }

@@ -28,7 +28,7 @@ namespace RssMob.Services
             {
                 string content = response.Content.ReadAsStringAsync().Result;
                 clients = Newtonsoft.Json.JsonConvert.DeserializeObject<List<EquipType>>(content);
-                return await Task.FromResult(clients.ToList());
+                return clients;// await Task.FromResult(clients.ToList());
             }
             return null;
         }

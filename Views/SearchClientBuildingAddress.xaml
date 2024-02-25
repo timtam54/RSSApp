@@ -27,14 +27,10 @@
                     <CollectionView ItemsSource="{Binding BuildingViews}" x:Name="InspectionList">
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="model:Building">
-                                <Grid Padding="10">
-                                    <Frame HeightRequest="125" >
-                                        <Grid Padding="0" ColumnDefinitions="125,*">
-                                            <Button FontSize="14" WidthRequest="125"  Grid.Column="0" Clicked="Button_Clicked" CommandParameter="{Binding id}" BackgroundColor="Black" Text="{Binding BuildingName}"></Button>
-                                            <Label Grid.Column="1" Text="{Binding BuildingName}" TextColor="Black"></Label>
-                                        </Grid>
-                                    </Frame>
-                                </Grid>
+                                <HorizontalStackLayout Padding="1">
+                                    <Button HeightRequest="30" FontSize="14" WidthRequest="150" Clicked="EditBuilding"  CommandParameter="{Binding id}" BackgroundColor="Black" Text="{Binding ClientName}"></Button>
+                                            <Label  HeightRequest="30"  Text="{Binding BuildingName}" WidthRequest="150"  TextColor="Black"></Label>
+                                </HorizontalStackLayout>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
@@ -50,7 +46,7 @@
                     <CollectionView ItemsSource="{Binding NewAddressViews}" x:Name="NewList">
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="model:Building">
-                                <HorizontalStackLayout Padding="2">                               
+                                <HorizontalStackLayout Padding="1">                               
                                     <Button Text="map" Clicked="Button_Clicked_1" BackgroundColor="Black"    CommandParameter="{Binding BuildingName}"></Button>
                                     <Button Clicked="Button_Clicked_2" Text="{Binding Address}" CommandParameter="{Binding Address}" BorderColor="Black"  BorderWidth="2" BackgroundColor="White" TextColor="Black"></Button>
                                 </HorizontalStackLayout>

@@ -9,4 +9,10 @@ namespace RssMob.Models
 
         public ObservableCollection<VersionRpt> Versions { get; set; }
     }
+
+    public class EquipTypesViewModel
+    {
+
+        public ObservableCollection<EquipType> EquipTypes { get; set; }
+    }
 }

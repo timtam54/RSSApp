@@ -23,17 +23,17 @@
         <Label Text=" "></Label>
         <Label Text=" "></Label>
         <Button HorizontalOptions="CenterAndExpand"
-                x:Name="btnLogin"
-                Text="Login"
-                BackgroundColor="#0690b1"
-                TextColor="White"
-                BorderColor="#000"
-                CornerRadius="14"
-                BorderWidth="1.5"
-                FontAttributes="Bold"
-                FontSize="24" WidthRequest="200"
-                Clicked="btnLogin_Clicked"
-                VerticalOptions="Center"/>
+         x:Name="btnLogin"
+         Text="Login"
+         BackgroundColor="#0690b1"
+         TextColor="White"
+         BorderColor="#000"
+         CornerRadius="14"
+         BorderWidth="1.5"
+         FontAttributes="Bold"
+         FontSize="24" WidthRequest="200"
+         Clicked="btnLogin_Clicked"
+         VerticalOptions="Center"/>
 
     </StackLayout>
 </ContentPage>

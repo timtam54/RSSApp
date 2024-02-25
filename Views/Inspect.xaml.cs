@@ -6,24 +6,22 @@ namespace RssMob.Views;
 public partial class Inspect : ContentPage,iRefreshData
 {
 
-    //app-specific password
- //   doau-kxei-vdby-ldsk
     readonly IInspectionRepository _insp;
     readonly IEmployeeRepository _emp = new EmployeeServices();
     readonly IBuildingRepository _bui = new BuildingServices();
     int _InspectionID;
     readonly IInspEquipRepository _inspitems = new InspEquipServices();
     iRefreshData _par;
+    int _LoginID;
    // string _BuildingID;
-    public Inspect(int InspectionID,  IInspectionRepository insp,iRefreshData par)
+    public Inspect(int InspectionID,  IInspectionRepository insp,iRefreshData par,int LoginID)
     {
         try
         {
+            _LoginID = LoginID;
             _insp = insp;
             InitializeComponent();
-            //   _BuildingID = BuildingID;
-
-
+         
             _InspectionID = InspectionID;
             uploadImage = new UploadImage();
             _par = par;
@@ -31,7 +29,7 @@ public partial class Inspect : ContentPage,iRefreshData
         }
         catch (Exception ex)
         {
-            DisplayAlert("Error","Error:"+ex.Message, "OK");
+            DisplayAlert("Error.Inspect", "Error.Inspect:" + ex.Message, "OK");
         }
     }
 
@@ -79,7 +77,7 @@ public partial class Inspect : ContentPage,iRefreshData
         {
             Item = new Inspection();
             Item.InspectionDate = DateTime.Now;
-            
+                Item.InspectorID = _LoginID;
         }
         else
         {
@@ -94,16 +92,19 @@ public partial class Inspect : ContentPage,iRefreshData
        
 
   
-        if (_InspectionID == 0)
-        {
-            Item.InspectorID = Item.Insps.FirstOrDefault().Value;
-            
-            
-        }
-        Item.SelectInspectorID = Item.Insps.Where(i => i.Value == Item.InspectorID).FirstOrDefault();
+        //if (_InspectionID == 0)
+        //{
+        //    Item.InspectorID = Item.Insps.FirstOrDefault().Value;
 
-       
-        Items = await _inspitems.InspItems(_InspectionID);
+        //        Item.Inspector2ID = Item.Insps.FirstOrDefault().Value;
+        //    }
+        Item.SelectInspectorID = Item.Insps.Where(i => i.Value == Item.InspectorID).FirstOrDefault();
+            if (Item.Inspector2ID==null)
+                Item.Inspector2ID = Item.Insps.FirstOrDefault().Value;
+//            else
+                Item.SelectInspector2ID = Item.Insps.Where(i => i.Value == Item.Inspector2ID).FirstOrDefault();
+
+            Items = (await _inspitems.InspItems(_InspectionID)).OrderByDescending(i=>i.id).ToList();
 
         foreach (var item in Items)
         {
@@ -127,7 +128,7 @@ public partial class Inspect : ContentPage,iRefreshData
         }
         catch (Exception ex)
         {
-          await  DisplayAlert("Error", "Error:" + ex.Message, "OK");
+          await  DisplayAlert("Inspect.Error", "Error.Inspect.RefreshData:" + ex.Message, "OK");
         }
         return false;
     }
@@ -137,7 +138,7 @@ public partial class Inspect : ContentPage,iRefreshData
     private async void SearchClientView_Unloaded(object sender, EventArgs e)
     {
         if (!BuildingSet)
-       // if (BuildingID.SelectedIndex==-1)// Item.SelectBuidingID == null)
+      
         {
            await Navigation.PopAsync();
          await   Navigation.PopAsync();
@@ -242,7 +243,10 @@ public partial class Inspect : ContentPage,iRefreshData
         Indi.IsRunning = true;
         Models.Inspection Item = (Models.Inspection)BindingContext;
         Item.InspectorID = Item.SelectInspectorID.Value;
-        Item.BuildingID = Item.SelectBuidingID.Value;
+         if (Item.SelectInspector2ID!=null)
+            Item.Inspector2ID = Item.SelectInspector2ID.Value;
+
+            Item.BuildingID = Item.SelectBuidingID.Value;
         if (Item.id != 0)
             await _insp.Update(Item);
         else
@@ -259,6 +263,7 @@ public partial class Inspect : ContentPage,iRefreshData
             Indi.IsRunning = false;
             Indi.IsVisible = false;
             lblUpload.IsVisible = false;
+                imagefile = null;
         }
         BindingContext = Item;
         Orig = (Models.Inspection)Item.Clone();
@@ -277,7 +282,7 @@ public partial class Inspect : ContentPage,iRefreshData
     }
     async void Button_Versions(System.Object sender, System.EventArgs e)
     {
-        await Navigation.PushAsync(new Views.InspVersions(Convert.ToInt32(_InspectionID)));
+        await Navigation.PushAsync(new Views.InspVersions(Convert.ToInt32(Item.BuildingID),_insp));
     }
 
     bool Loading = true;
@@ -291,7 +296,7 @@ public partial class Inspect : ContentPage,iRefreshData
         pk.Unfocus();
         if (ss == "-Add New-")
         {
-            await Navigation.PushAsync(new Views.Building(this, 0,_bui));
+            await Navigation.PushAsync(new Views.Building(this, 0,_bui,_insp));
         }
     }
 

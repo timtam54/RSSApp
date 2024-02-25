@@ -55,8 +55,8 @@
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>App needs to know your location so it can show relative location of other jobs</string>
 	<key>CFBundleShortVersionString</key>
-	<string>32</string>
+	<string>37</string>
 	<key>CFBundleVersion</key>
-	<string>32</string>
+	<string>37</string>
 </dict>
 </plist>

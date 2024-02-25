@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RssMob.Views.InspVersions"
-              Title="Inspection Versions"
+              Title="Building Inspection History"
               xmlns:model="clr-namespace:RssMob.Models"
              x:DataType="ViewModel:InspVersionViewModel"
              xmlns:ViewModel="clr-namespace:RssMob.Models">
@@ -15,27 +15,24 @@
                 <CollectionView ItemsSource="{Binding Versions}" x:Name="InspVersionList">
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="model:VersionRpt">
-                            <Grid Padding="10">
-                                <Frame HeightRequest="120" >
-                                    <Grid Padding="0" ColumnDefinitions="100,*">
-                                        <Label Text="{Binding Author}"></Label>
-                                        <StackLayout Grid.Column="1" Padding="2">
-                                            <HorizontalStackLayout VerticalOptions="Start">
-                                                <VerticalStackLayout WidthRequest="80" VerticalOptions="Start">
-                                                <Button WidthRequest="80" FontSize="20" CommandParameter="{Binding id}" Clicked="Button_Edit" Text="{Binding VersionNo}"></Button>
-                                                    <ImageButton WidthRequest="80"  CommandParameter="{Binding id}"  Clicked="Button_Delete" HeightRequest="14" Source="delete.png">
-                                                    </ImageButton>
-                                                    
-                                                </VerticalStackLayout>
-                                                <VerticalStackLayout>
+                            <Grid Padding="2"  VerticalOptions="Start">
+                                <Frame HeightRequest="125"  VerticalOptions="Start">
+                                    <Grid Padding="0" ColumnDefinitions="125,*" VerticalOptions="Start">
+                                        <Image Aspect="AspectFill" Source="{Binding Photo}" WidthRequest="125" HeightRequest="125">
 
-                                                    <Label HorizontalOptions="Center" Text="{Binding Information}"></Label>
-                                                    <Label HorizontalOptions="Center" Text="{Binding VersionType}"></Label>
-                                                    
-                                                </VerticalStackLayout>
+                                        </Image>
+
+                                        <StackLayout Grid.Column="1" VerticalOptions="CenterAndExpand">
+                                            <HorizontalStackLayout>
+                                                <Label Text="{Binding Information}" FontSize="14"  TextColor="Navy" FontAttributes="Bold"></Label>
+                                                <Label TextColor="White">..</Label>
+                                                <Label Text="{Binding VersionType}" TextColor="Red" FontAttributes="Bold"></Label>
                                             </HorizontalStackLayout>
-                                           
-                                           
+                                            <Button FontAttributes="Bold" BorderWidth="2" BackgroundColor="White" TextColor="#0690b1" BorderColor="#0690b1"  HeightRequest="30"  WidthRequest="200" FontSize="14" CommandParameter="{Binding id}" Clicked="Button_Clicked" Text="{Binding Author}"></Button>
+
+
+                                            <Label Text="{Binding Areas}" FontSize="12" TextColor="Black"></Label>
+
                                         </StackLayout>
                                     </Grid>
                                 </Frame>
@@ -49,13 +46,13 @@
         <Grid Grid.Row="1">
 
             <HorizontalStackLayout HorizontalOptions="CenterAndExpand" >
-                <VerticalStackLayout HorizontalOptions="CenterAndExpand">
+                <!--<VerticalStackLayout HorizontalOptions="CenterAndExpand">
                     <Label Text="Add Version"  TextColor="Black"   FontAttributes="Bold" FontSize="14" HorizontalOptions="Center"></Label>
                     <ImageButton Clicked="Button_AddNew" Source="add.ico" ></ImageButton>
 
                 </VerticalStackLayout>
                 <Label Text=" "></Label>
-                <Label Text=" "></Label>
+                <Label Text=" "></Label>-->
                 <VerticalStackLayout HorizontalOptions="CenterAndExpand">
                     <Label  TextColor="Black" Text="Back"  FontSize="14"  FontAttributes="Bold" HorizontalOptions="Center"></Label>
                     <ImageButton Source="logout.ico"  Clicked="Button_Close"></ImageButton>

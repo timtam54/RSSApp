@@ -35,6 +35,7 @@ public partial class InspEquipTestDet : ContentPage, iRefreshData
 
     public InspEquipTestDet(iRefreshData par, int id, IInspEquipTestRepository client, int EquipTypeID, int InspEquipID, string EquipTypeName)//, int? EquipTypeTestID)
     {
+        try { 
         _par = par;
         _id = id;
         _client = client;
@@ -46,7 +47,11 @@ public partial class InspEquipTestDet : ContentPage, iRefreshData
         Title = "Tests for " + EquipTypeName;
 
         RefreshDataAsync();
-        
+        }
+        catch (Exception ex)
+        {
+             DisplayAlert("Inspect.InspEquipTestDet", "Error.InspEquipTestDet:" + ex.Message, "OK");
+        }
     }
 
    
@@ -139,6 +144,7 @@ public partial class InspEquipTestDet : ContentPage, iRefreshData
     }
     protected async override void OnDisappearing()
     {
+        try { 
         Item = (Models.InspEquipTypeTest)BindingContext;
         if (!Item.Equals(Orig))
         {
@@ -147,6 +153,11 @@ public partial class InspEquipTestDet : ContentPage, iRefreshData
                 await SaveData();
             }
             //return;
+        }
+        }
+        catch (Exception ex)
+        {
+          await  DisplayAlert("Inspect.InspEquipTestDet", "Error.InspEquipTestDet.OnDisappearing:" + ex.Message, "OK");
         }
         base.OnDisappearing();
     }
@@ -231,7 +242,7 @@ public partial class InspEquipTestDet : ContentPage, iRefreshData
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error - pop fail reasons",ex.Message,"Cancel");
+            await DisplayAlert("Error - pop fail reasons","Error.InspEquipTestDet.PopFailedReason"+ex.Message,"Cancel");
             lblFail.Text=ex.Message;
         }
     }
@@ -249,6 +260,7 @@ public partial class InspEquipTestDet : ContentPage, iRefreshData
 
     private async Task SaveData()
     {
+        try { 
         ddlett3.IsVisible = false;
         Indi.IsVisible = true;
         Indi.IsRunning = true;
@@ -311,6 +323,11 @@ public partial class InspEquipTestDet : ContentPage, iRefreshData
         Orig = (Models.InspEquipTypeTest)Item.Clone();
         Indi.IsVisible = false;
         Indi.IsRunning = false;
+        }
+        catch (Exception ex)
+        {
+           await DisplayAlert("Error.InspEquipTestDet", "Error.InspEquipTestDet.SaveData:" + ex.Message, "OK");
+        }
     }
 
 

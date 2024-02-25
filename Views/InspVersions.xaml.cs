@@ -5,46 +5,42 @@ namespace RssMob.Views;
 public partial class InspVersions : ContentPage,iRefreshData
 {
     readonly IVersionRepository _versions = new VersionServices();
-    int _InspectionID;
-    public InspVersions(int InspectionID)
+    IInspectionRepository _insp;
+    int _Buildingid;
+    public InspVersions(int Buildingid, IInspectionRepository insp)
     {
-        _InspectionID = InspectionID;
+        try {
+            _insp = insp;
+            _Buildingid = Buildingid;
         InitializeComponent();
         RefreshDataAsync();
+        }
+        catch (Exception ex)
+        {
+            DisplayAlert("Error.InspVersions", "Error.InspVersions:" + ex.Message, "OK");
+        }
     }
     List<Models.VersionRpt> Items;
     public async Task<bool> RefreshDataAsync()
     {
-        Items = await _versions.Versions(_InspectionID);
+        try { 
+        Items = await _versions.Versions(_Buildingid);
+            foreach (var item in Items)
+            {
+                item.Photo = "https://rssblob.blob.core.windows.net/rssimage/" + item.Photo;
+            }
 
-
-        InspVersionList.ItemsSource = Items;
+            InspVersionList.ItemsSource = Items;
         return true;
+        }
+        catch (Exception ex)
+        {
+           await DisplayAlert("Error.InspVersions", "Error.InspVersions.RefreshDataAsync:" + ex.Message, "OK");
+        }
+        return false;
     }
 
-    async void Button_Edit(System.Object sender, System.EventArgs e)
-    {
-        Button btn = (Button)sender;
-        var InspEquipID = btn.CommandParameter;
-        await Navigation.PushAsync(new Views.InspVersion(this, Convert.ToInt32(InspEquipID), _versions, _InspectionID,Items.Count()));
-    }
-
-    async void Button_AddNew(System.Object sender, System.EventArgs e)
-    {
-
-        await Navigation.PushAsync(new Views.InspVersion(this, 0, _versions, _InspectionID, Items.Count()));
-
-    }
-
-
-
-    async void Button_Delete(System.Object sender, System.EventArgs e)
-    {
-        Button btn = (Button)sender;
-        var InspEquipID = btn.CommandParameter;
-        await _versions.Delete(Convert.ToInt32(InspEquipID));
-        RefreshDataAsync();
-    }
+   
 
     async void Button_Close(object sender, EventArgs e)
     {
@@ -54,5 +50,19 @@ public partial class InspVersions : ContentPage,iRefreshData
     public void NewID(int id)
     {
         ;
+    }
+
+    private void Button_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            Button btn = (Button)sender;
+            var InspectionID = btn.CommandParameter;
+             Navigation.PushAsync(new Views.Inspect(Convert.ToInt32(InspectionID), _insp, this, 0));
+        }
+        catch (Exception ex)
+        {
+             DisplayAlert("Error.Inspections", "Error.Inspections.Button_InspectItem:" + ex.Message, "OK");
+        }
     }
 }

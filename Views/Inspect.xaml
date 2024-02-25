@@ -8,7 +8,7 @@
              xmlns:ViewModel="clr-namespace:RssMob.Models" BackgroundColor="#0690b1">
     <Grid RowDefinitions="*,Auto">
 
-            <ScrollView VerticalOptions="FillAndExpand" BackgroundColor="White">
+            <ScrollView VerticalOptions="FillAndExpand"  BackgroundColor="White">
                 
                 <VerticalStackLayout>
                     
@@ -37,7 +37,10 @@
          
                     <HorizontalStackLayout HorizontalOptions="Fill">
                     <DatePicker FontSize="14" WidthRequest="200"  Date="{Binding InspectionDate}"></DatePicker>
-                    <Picker FontSize="14" WidthRequest="300"  Title="Inspector" x:Name="InspectorID" ItemsSource="{Binding Insps}" SelectedItem="{Binding SelectInspectorID, Mode=TwoWay}" ItemDisplayBinding="{Binding Text}" />
+                </HorizontalStackLayout>
+                <HorizontalStackLayout HorizontalOptions="Fill">
+                    <Picker FontSize="14" WidthRequest="250"  Title="Inspector" x:Name="InspectorID" ItemsSource="{Binding Insps}" SelectedItem="{Binding SelectInspectorID, Mode=TwoWay}"  ItemDisplayBinding="{Binding Text}" />
+                    <Picker FontSize="14" WidthRequest="250"  Title="Inspector 2" x:Name="Inspector2ID" ItemsSource="{Binding Insps}" SelectedItem="{Binding SelectInspector2ID, Mode=TwoWay}" ItemDisplayBinding="{Binding Text}" />
                 </HorizontalStackLayout>
 
                 <HorizontalStackLayout HorizontalOptions="FillAndExpand">
@@ -89,14 +92,19 @@
                     <ImageButton HeightRequest="60" WidthRequest="60" Source="delete.png" Clicked="Delete_Clicked"></ImageButton>
                 </VerticalStackLayout>
                 <Label Text=" "></Label>
-                <Label Text=" "></Label><VerticalStackLayout HorizontalOptions="CenterAndExpand">
+                <Label Text=" "></Label>
+                <Label Text=" "></Label>
+                <Label Text=" "></Label>
+                <VerticalStackLayout HorizontalOptions="CenterAndExpand">
                     <Label Text="Save" TextColor="Black" FontSize="14" HorizontalOptions="Center"></Label>
                     <ImageButton Source="save.ico" Clicked="Button_Save"></ImageButton>
                 </VerticalStackLayout>
                 <Label Text=" "></Label>
                 <Label Text=" "></Label>
+                <Label Text=" "></Label>
+                <Label Text=" "></Label>
                 <VerticalStackLayout HorizontalOptions="CenterAndExpand">
-                    <Label  TextColor="Black" Text="Versions" FontSize="14"  HorizontalOptions="Center"></Label>
+                    <Label  TextColor="Black" Text="History" FontSize="14" HorizontalOptions="Center"></Label>
                     <ImageButton Source="versions.ico" Clicked="Button_Versions"></ImageButton>
                 </VerticalStackLayout>
                

@@ -54,9 +54,9 @@ namespace RssMob.Models
             return true;
         }
 
-        public List<SelectListItem> Et { get; set; }
-        public SelectListItem SelEquipType { get; set; }
-
+        //  public List<SelectListItem> Et { get; set; }
+        // public SelectListItem SelEquipType { get; set; }
+        public string SelEquipType { get; set; }
         public int id { get; set; }
         [Display(Name = "Type")]
         public int EquipTypeID { get; set; }

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RssMob.Views.EquipTypeSelect"
+             Title="EquipTypeSelect"              
+             xmlns:model="clr-namespace:RssMob.Models"
+             x:DataType="ViewModel:EquipTypesViewModel"
+             xmlns:ViewModel="clr-namespace:RssMob.Models">
+
+    <Grid RowDefinitions="*,Auto">
+
+        <ScrollView VerticalOptions="FillAndExpand">
+            <VerticalStackLayout>
+
+                <CollectionView ItemsSource="{Binding EquipTypes}" x:Name="InspVersionList">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:EquipType">
+
+
+                            <Button TextColor="#0690b1" BorderColor="#0690b1" BorderWidth="2" BackgroundColor="White"  FontAttributes="Bold"  Text="{Binding EquipTypeDesc}" CommandParameter="{Binding id}" Clicked="Button_Clicked"></Button>
+              
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+        <Grid Grid.Row="1">
+
+            <HorizontalStackLayout HorizontalOptions="CenterAndExpand" >
+              
+                <VerticalStackLayout HorizontalOptions="CenterAndExpand">
+                    <Label  TextColor="Black" Text="Back"  FontSize="14"  FontAttributes="Bold" HorizontalOptions="Center"></Label>
+                    <ImageButton Source="logout.ico"  Clicked="Button_Close"></ImageButton>
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+
+        </Grid>
+    </Grid>
+</ContentPage>

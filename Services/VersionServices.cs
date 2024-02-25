@@ -64,13 +64,13 @@ namespace RssMob.Services
         }
         string url = "https://roofsafetysolutions.azurewebsites.net/api/Versions/";
 
-        public async Task<List<Models.VersionRpt>> Versions(int Inspectionid)
+        public async Task<List<Models.VersionRpt>> Versions(int bid)
         {
 
             var client = new HttpClient();
 
             client.BaseAddress = new Uri(url);
-            HttpResponseMessage response = await client.GetAsync(Inspectionid.ToString());
+            HttpResponseMessage response = await client.GetAsync(bid.ToString());
             if (response.IsSuccessStatusCode)
             {
                 string content = response.Content.ReadAsStringAsync().Result;
