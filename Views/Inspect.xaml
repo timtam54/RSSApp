@@ -101,8 +101,6 @@
                 </VerticalStackLayout>
                 <Label Text=" "></Label>
                 <Label Text=" "></Label>
-                <Label Text=" "></Label>
-                <Label Text=" "></Label>
                 <VerticalStackLayout HorizontalOptions="CenterAndExpand">
                     <Label  TextColor="Black" Text="History" FontSize="14" HorizontalOptions="Center"></Label>
                     <ImageButton Source="versions.ico" Clicked="Button_Versions"></ImageButton>
@@ -112,6 +110,12 @@
                     <Label  TextColor="Black" Text="Report" FontSize="14"  HorizontalOptions="Center"></Label>
                     <ImageButton CommandParameter="{Binding id}" Source="print.ico" Clicked="Print_Clicked">
                         
+                    </ImageButton>
+                </VerticalStackLayout>
+                <VerticalStackLayout>
+                    <Label  TextColor="Black" Text="Copy" FontSize="14"  HorizontalOptions="Center"></Label>
+                    <ImageButton  Source="versions.ico" Clicked="Copy_Clicked">
+
                     </ImageButton>
                 </VerticalStackLayout>
             </HorizontalStackLayout>

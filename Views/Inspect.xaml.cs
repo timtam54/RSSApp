@@ -1,5 +1,6 @@
 using RssMob.Models;
 using RssMob.Services;
+using System.Runtime.CompilerServices;
 
 namespace RssMob.Views;
 
@@ -335,5 +336,13 @@ public partial class Inspect : ContentPage,iRefreshData
         Item.Photo = null;
         Image_Upload.Source = null;
         //Item.PhotoURL = null;
+    }
+
+    async  void Copy_Clicked(object sender, EventArgs e)
+    {
+        var newinsp= await _insp.Copy(_InspectionID);
+        newinsp.InspectorID = _LoginID;
+      await  _insp.Update(newinsp);
+        await Navigation.PushAsync(new Views.Inspect(Convert.ToInt32(newinsp.id), _insp, _par, _LoginID));
     }
 }

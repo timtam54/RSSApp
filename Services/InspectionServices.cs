@@ -41,6 +41,33 @@ namespace RssMob.Services
             }
             return false;
         }
+        
+        public async Task<Inspection> Copy(int id)
+        {
+            try
+            {
+                var inspections = new Inspection();
+                var client = new HttpClient();
+                string url = "https://roofsafetysolutions.azurewebsites.net/api/inspections/copy/" + id.ToString();
+                client.BaseAddress = new Uri(url);
+                HttpResponseMessage response = await client.GetAsync("");
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = response.Content.ReadAsStringAsync().Result;
+                    inspections = Newtonsoft.Json.JsonConvert.DeserializeObject<Inspection>(content);
+                    
+                    var ret= await Task.FromResult(inspections);
+                    
+                    return ret;
+                }
+            }
+            catch (Exception ex)
+            {
+                var dd = ex.Message;
+                var mm = dd;
+            }
+            return null;
+        }
 
         public async Task<Inspection> Inspection(int id)
         {
