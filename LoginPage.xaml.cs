@@ -1,3 +1,4 @@
+
 using Microsoft.Maui.ApplicationModel.Communication;
 using RssMob.Models;
 using RssMob.Services;
@@ -11,9 +12,8 @@ public partial class LoginPage : ContentPage
 
     readonly ILoginRepository _loginRepository = new LoginServices();
 
-    public LoginPage(EmployeeDatabase rssDatabase)//, Dashboard dashboard
+    public LoginPage(EmployeeDatabase rssDatabase)
     {
-        //_dashboard = dashboard;
         InitializeComponent();
         DteTo = DateTime.Now.AddMonths(1);
         DteFrom = DateTime.Now.AddMonths(-3);
@@ -27,25 +27,22 @@ public partial class LoginPage : ContentPage
             return;
         if (emps.Count() == 0)
             return;
-       await _rssDatabase.DeleteItemAsync(emps.FirstOrDefault());
+       //await _rssDatabase.DeleteItemAsync(emps.FirstOrDefault());
     }
     List<Employee> emps;
     private async void LoginPage_Loaded(object sender, EventArgs e)
     {
+        if (txtEmail.Text != null) return;
         emps = await _rssDatabase.GetItemsAsync();
         if (emps != null)
         {
             if (emps.Count != 0)
             {
-                emps.FirstOrDefault().id = 1;
+                //emps.FirstOrDefault().id = 1;
                 txtEmail.Text = emps.FirstOrDefault().Email;
                 txtPassword.Text = emps.FirstOrDefault().Password;
-                Employee employee = await _loginRepository.Login(txtEmail.Text, txtPassword.Text);
-                if (employee != null)
-                {
-                    await RefreshDataAsync();
-                    await Navigation.PushAsync(new RssMap(this,employee.id));
-                }
+
+                //await ServerAuthClearAllOtherUserAddAuthUserToDB(txtEmail.Text, txtPassword.Text);
             }
         }
     }
@@ -91,19 +88,46 @@ public partial class LoginPage : ContentPage
             await DisplayAlert("Warning", "Please enter email and password", "ok");
             return;
         }
+        await ServerAuthClearAllOtherUserAddAuthUserToDB(email, password);
+    }
+
+    private async Task ServerAuthClearAllOtherUserAddAuthUserToDB(string email, string password)
+    {
         employee = await _loginRepository.Login(email, password);
         if (employee != null)
         {
+            var diff = emps.Where(i => i.Email != email).ToList();
+            if (diff.Count() > 0)
+            {
+                foreach (var emp in diff)
+                {
+                    await _rssDatabase.DeleteItemAsync(emp);
+
+                }
+                //employee.id = 0;
+            }
             var exists = emps.Where(i => i.Email == email).Count();
             if (exists == 0)
-                //todo see if this exist in the database and if not then 
-                employee.id = 0;
-            await _rssDatabase.SaveItemAsync(employee);
+            {
+                await _rssDatabase.SaveItemAsync(employee,true);
+            }
+            emps = await _rssDatabase.GetItemsAsync();
             await RefreshDataAsync();
             await Navigation.PushAsync(new RssMap(this, employee.id));
         }
         else
         {
+            foreach (var emp in emps)
+            {
+                await _rssDatabase.DeleteItemAsync(emp);
+
+            }
+            emps = await _rssDatabase.GetItemsAsync();
+            txtEmail.Text = "";
+            txtEmail.Placeholder = "-Email-";
+            txtPassword.Placeholder = "-Password-";
+            txtPassword.Text = "";
+
             await DisplayAlert("Warning", "Login failed", "ok");
         }
     }

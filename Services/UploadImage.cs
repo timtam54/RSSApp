@@ -134,76 +134,69 @@ namespace RssMob.Services
 
         public async Task<ImageFile> GetImageFile(FileResult fileresult,bool Rotate)
         {
-            
-            Stream stream = await fileresult.OpenReadAsync();
-            Stream rotatedStream;
-            SKBitmap photoBitmap = SKBitmap.Decode(stream);
-            if (Rotate)
+            try
             {
+                Stream stream = await fileresult.OpenReadAsync();
+                Stream rotatedStream;
+                SKBitmap photoBitmap = SKBitmap.Decode(stream);
+                if (Rotate)
+                {
 
-                photoBitmap = RotateBitmapResize(photoBitmap);
+                    photoBitmap = RotateBitmapResize(photoBitmap);
 
 
 
-                
-            }
-            else
-            {
-                photoBitmap = ResizeImage(photoBitmap);
-                //rotatedStream = stream;
-            }
-            rotatedStream = SKImage.FromBitmap(photoBitmap).Encode().AsStream();
-            byte[] bytes = null;
 
-            using (var ms = new MemoryStream())
-            {
-                rotatedStream.CopyTo(ms);
-                bytes = ms.ToArray();
-            }
-            return new ImageFile
-            {
-                byteBase64 = Convert.ToBase64String(bytes),
-                ContentType = fileresult.ContentType,
-                FileName = Guid.NewGuid().ToString() + "." + Path.GetExtension(fileresult.FileName)
-            };
+                }
+                else
+                {
+                    photoBitmap = ResizeImage(photoBitmap);
+                    //rotatedStream = stream;
+                }
+                rotatedStream = SKImage.FromBitmap(photoBitmap).Encode().AsStream();
+                byte[] bytes = null;
 
-           /* try
-            {
                 using (var ms = new MemoryStream())
                 {
-                    var stream = await FileResultToStream(fileresult);
-                    stream.CopyTo(ms);
-                 
+                    rotatedStream.CopyTo(ms);
                     bytes = ms.ToArray();
                 }
-               
                 return new ImageFile
                 {
-                    byteBase64 = ByteBase64ToString(bytes),
+                    byteBase64 = Convert.ToBase64String(bytes),
                     ContentType = fileresult.ContentType,
                     FileName = Guid.NewGuid().ToString() + "." + Path.GetExtension(fileresult.FileName)
                 };
+
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return null;
-            }*/
+            }
+            return null;
         }
 
         private static SKBitmap ResizeImage(SKBitmap photoBitmap)
         {
-            int resizedWidth = photoBitmap.Width; int resizedHeight = photoBitmap.Height;
-            while (resizedWidth > 1000)
+            try
             {
-                resizedWidth = resizedWidth / 2;
-                resizedHeight = resizedHeight / 2;
+                int resizedWidth = photoBitmap.Width; int resizedHeight = photoBitmap.Height;
+                while (resizedWidth > 1000)
+                {
+                    resizedWidth = resizedWidth / 2;
+                    resizedHeight = resizedHeight / 2;
+                }
+                if (resizedWidth != photoBitmap.Width)
+                {
+                    SkiaSharp.SKImageInfo info = new SKImageInfo(resizedWidth, resizedHeight);
+                    SkiaSharp.SKFilterQuality qualityx = SKFilterQuality.High;
+                    photoBitmap = photoBitmap.Resize(info, qualityx);
+                }
             }
-            if (resizedWidth != photoBitmap.Width)
-            { 
-                SkiaSharp.SKImageInfo info = new SKImageInfo(resizedWidth, resizedHeight);
-                SkiaSharp.SKFilterQuality qualityx = SKFilterQuality.High;
-                photoBitmap = photoBitmap.Resize(info, qualityx);
+            catch (Exception ex)
+            {
+                
+                Console.WriteLine(ex.Message);
             }
             return photoBitmap;
         }

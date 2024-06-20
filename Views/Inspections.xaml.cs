@@ -35,7 +35,8 @@ public partial class Inspections : ContentPage, iRefreshData
        _dashboard.search = e.NewTextValue;
         if (_dashboard.search == null)
             return;
-        await RefreshDataAsync();
+            _Items =_dashboard.Items.Where(i => i.ClientName.ToLower().ToString().Contains(_dashboard.search.ToLower()) || (i.Address!=null && i.Address.ToLower().ToString().Contains(_dashboard.search.ToLower())) || (i.TestingInstruments!=null && i.TestingInstruments.ToLower().ToString().Contains(_dashboard.search.ToLower())) || (i.Areas != null && i.Areas.ToLower().ToString().Contains(_dashboard.search.ToLower()))).ToList();// || i.Address.ToLower().ToString().Contains(_dashboard.search.ToLower())).
+            Reload();
         }
         catch (Exception ex)
         {

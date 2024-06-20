@@ -74,7 +74,7 @@ namespace RssMob.Services
             {
                 string content = response.Content.ReadAsStringAsync().Result;
                 ret = Newtonsoft.Json.JsonConvert.DeserializeObject<List<InspEquipView>>(content);
-                return await Task.FromResult(ret.ToList());
+                return await Task.FromResult(ret.OrderBy(i=>i.Ordr).ToList());
             }
             return null;
         }

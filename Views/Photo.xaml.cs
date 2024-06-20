@@ -56,31 +56,21 @@ public partial class Photo : ContentPage
             if (img != null)
             {
                 Models.ImageFile imfl = await uploadImage.GetImageFile(img, true);
+                    if (imfl == null)
+                    {
+                        await DisplayAlert("An Error occurred", "Error", "Cancel");
+                    }
+                    else
+                    {
+                        Models.ImageFile imagefile = await uploadImage.UploadToServer(imfl, (photoType == PhotoType.InspEquip) ? 1 : 3, _id);
+                        Image_Upload.Source = ImageSource.FromStream(() => uploadImage.ByteArrayStream(uploadImage.StringToByteBase64(imfl.byteBase64)));// imagefile.byteBase64)));
 
-                /*  Stream stream = await img.OpenReadAsync();
-                 *  SKBitmap photoBitmap =UploadImage.RotateBitmapResize(SKBitmap.Decode(stream));
-                  Stream rotatedStream = SKImage.FromBitmap(photoBitmap).Encode().AsStream();
-                  byte[] bytes = null;
-                      using (var ms = new MemoryStream())
-                      {
-                          rotatedStream.CopyTo(ms);
-                          bytes = ms.ToArray();
-                      }
-                      Models.ImageFile imfl= new Models.ImageFile
-                      {
-                          byteBase64 = Convert.ToBase64String(bytes),
-                          ContentType = img.ContentType,
-                          FileName = Guid.NewGuid().ToString() + "." + Path.GetExtension(img.FileName)
-                      };*/
-                Models.ImageFile imagefile = await uploadImage.UploadToServer(imfl, (photoType == PhotoType.InspEquip) ? 1 : 3, _id);
-                Image_Upload.Source = ImageSource.FromStream(() => uploadImage.ByteArrayStream(uploadImage.StringToByteBase64(imfl.byteBase64)));// imagefile.byteBase64)));
+                        //              Image_Upload.Source = ImageSource.FromStream(() => uploadImage.ByteArrayStream(uploadImage.StringToByteBase64(imagefile.byteBase64)));
 
-                //              Image_Upload.Source = ImageSource.FromStream(() => uploadImage.ByteArrayStream(uploadImage.StringToByteBase64(imagefile.byteBase64)));
+                        await par.RefreshDataAsync();
 
-                await par.RefreshDataAsync();
-
-                await Application.Current.MainPage.Navigation.PopAsync();
-
+                        await Application.Current.MainPage.Navigation.PopAsync();
+                    }
             }
             Indi.IsVisible = false;
             Indi.IsRunning = false;
@@ -113,11 +103,18 @@ public partial class Photo : ContentPage
           var  imagefile = await uploadImage.GetImageFile(img, false);
 
              imagefile = await uploadImage.UploadToServer(imagefile,(photoType== PhotoType.InspEquip)? 1:3, _id);
-            Image_Upload.Source = ImageSource.FromStream(() => uploadImage.ByteArrayStream(uploadImage.StringToByteBase64(imagefile.byteBase64)));
-            
-            
-            await par.RefreshDataAsync();
-            await Application.Current.MainPage.Navigation.PopAsync();
+                if (imagefile == null)
+                {
+                    await DisplayAlert("An Error occurred", "Error", "Cancel");
+                }
+                else
+                {
+                    Image_Upload.Source = ImageSource.FromStream(() => uploadImage.ByteArrayStream(uploadImage.StringToByteBase64(imagefile.byteBase64)));
+
+
+                    await par.RefreshDataAsync();
+                    await Application.Current.MainPage.Navigation.PopAsync();
+                }
         }
          activityIndicator.IsRunning=false;
         activityIndicator.IsVisible = false;

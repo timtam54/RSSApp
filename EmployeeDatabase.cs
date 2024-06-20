@@ -43,12 +43,13 @@ namespace RssMob
             return await Database.Table<Employee>().Where(i => i.id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<int> SaveItemAsync(Employee item)
+        public async Task<int> SaveItemAsync(Employee item,bool newrec)
         {
             try
             {
                 await Init();
-                if (item.id != 0)
+                //if (item.id != 0)
+                if (!newrec)
                     return await Database.UpdateAsync(item);
                 else
                     return await Database.InsertAsync(item);
@@ -64,6 +65,7 @@ namespace RssMob
         {
             await Init();
             return await Database.DeleteAsync(item);
+           
         }
         SQLiteAsyncConnection Database;
 

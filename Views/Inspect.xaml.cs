@@ -105,7 +105,7 @@ public partial class Inspect : ContentPage,iRefreshData
 //            else
                 Item.SelectInspector2ID = Item.Insps.Where(i => i.Value == Item.Inspector2ID).FirstOrDefault();
 
-            Items = (await _inspitems.InspItems(_InspectionID)).OrderByDescending(i=>i.id).ToList();
+            Items = (await _inspitems.InspItems(_InspectionID)).OrderBy(i=>i.Ordr).ToList();
 
         foreach (var item in Items)
         {
@@ -213,7 +213,12 @@ public partial class Inspect : ContentPage,iRefreshData
             if (img != null)
             {
                 imagefile = await uploadImage.GetImageFile(img,true);
-                Image_Upload.Source = ImageSource.FromStream(() => uploadImage.ByteArrayStream(uploadImage.StringToByteBase64(imagefile.byteBase64)));
+                if (imagefile==null)
+                {
+                    await DisplayAlert("An Error occurred","Error","Cancel");
+                }
+                else
+                    Image_Upload.Source = ImageSource.FromStream(() => uploadImage.ByteArrayStream(uploadImage.StringToByteBase64(imagefile.byteBase64)));
             }
         }
     }
@@ -227,6 +232,11 @@ public partial class Inspect : ContentPage,iRefreshData
             imagefile = await uploadImage.GetImageFile(img,false);
             Image_Upload.Source = ImageSource.FromStream(() => uploadImage.ByteArrayStream(uploadImage.StringToByteBase64(imagefile.byteBase64)));
          }
+        if (img == null)
+        {
+            await DisplayAlert("An Error occurred", "Error", "Cancel");
+        }
+
     }
     async void Button_Save(System.Object sender, System.EventArgs e)
     {

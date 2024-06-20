@@ -76,9 +76,12 @@ namespace RssMob.Models
         public ObservableCollection<InspPhoto> InspPhotos { get; set; }
         public List<InspEquipTypeTestRpt> InspEquipTypeTests { get; set; }//ObservableCollection
         public int? Qty { get; set; }
+
+        public int? Ordr { get; set; }
     }
     public class InspEquipView
     {
+        public int? Ordr { get; set; }
         public int id { get; set; }
         [Display(Name = "Type")]
         public string? EquipDesc { get; set; }

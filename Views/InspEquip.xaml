@@ -66,15 +66,12 @@
                     <Label FontSize="14" FontAttributes="Bold" Text="Manufacturer" Grid.Row="1" Grid.Column="0"></Label>
                     
                     <Entry Placeholder="Manufacturer" FontSize="14" TextColor="DarkSlateGrey" 
-            Text="{Binding Manufacturer}"
-            PlaceholderColor="Navy"  Grid.Row="1"
-                 Grid.Column="1"/>
+            Text="{Binding Manufacturer}"     PlaceholderColor="Navy"  Grid.Row="1"  Grid.Column="1"/>
 
                     <Label FontSize="14" FontAttributes="Bold" Text="Installer" Grid.Row="2" Grid.Column="0"></Label>
 
                     <Entry Placeholder="Installer"  FontSize="14" TextColor="DarkSlateGrey" 
             Text="{Binding Installer}" PlaceholderColor="Navy"   Grid.Row="2"           Grid.Column="1"/>
-
 
                     <Label FontSize="14" FontAttributes="Bold" Text="Rating" Grid.Row="3" Grid.Column="0"></Label>
 
