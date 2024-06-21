@@ -16,7 +16,7 @@ public partial class LoginPage : ContentPage
     {
         InitializeComponent();
         DteTo = DateTime.Now.AddMonths(1);
-        DteFrom = DateTime.Now.AddMonths(-3);
+        DteFrom = DateTime.Now.AddMonths(-2);
         Loaded += LoginPage_Loaded;
         _rssDatabase = rssDatabase;
 
@@ -75,6 +75,7 @@ public partial class LoginPage : ContentPage
     }
     
     public string search = "";
+    public string sort = "InspDate";
     public DateTime DteFrom;
     public DateTime DteTo;
 
@@ -113,7 +114,8 @@ public partial class LoginPage : ContentPage
             }
             emps = await _rssDatabase.GetItemsAsync();
             await RefreshDataAsync();
-            await Navigation.PushAsync(new RssMap(this, employee.id));
+            await Navigation.PushAsync(new Views.Inspections(this, employee.id));
+            //await Navigation.PushAsync(new RssMap(this, employee.id));
         }
         else
         {

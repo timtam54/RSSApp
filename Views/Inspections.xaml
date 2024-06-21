@@ -7,17 +7,27 @@
              xmlns:model="clr-namespace:RssMob.Models"
              x:DataType="ViewModel:InspectionsViewModel"
              xmlns:ViewModel="clr-namespace:RssMob.Models">
-    <Grid RowDefinitions="30,30,*,Auto">
-        <Grid ColumnDefinitions="140,*" BackgroundColor="Black" Grid.Row="0">
+    <Grid RowDefinitions="40,30,*,Auto">
+        <Grid ColumnDefinitions="*,100,160" BackgroundColor="Black" Grid.Row="0">
 
-            <Label Text="Search Inspection" Grid.Column="0"  TextColor="White" FontAttributes="Bold" FontSize="16" VerticalOptions="Center"></Label>
-            <Entry x:Name="entry"  BackgroundColor="White" FontAttributes="Bold" Grid.Column="1" Placeholder="-Search Building-" FontSize="16"
+            <Entry x:Name="entry"  BackgroundColor="White" FontAttributes="Bold" Grid.Column="0" Placeholder="Search/Sort" FontSize="18" 
        TextChanged="entry_TextChanged"/>
+            <Label Text="Sort" Grid.Column="1"  TextColor="White" FontAttributes="Bold" FontSize="18" VerticalOptions="Center"></Label>
+            <Picker x:Name="SortInsp"  Title="-Sort-" SelectedIndex="0" Grid.Column="2" BackgroundColor="White" FontSize="18" SelectedIndexChanged="Sort_SelectedIndexChanged"   >
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>InspDate</x:String>
+                        <x:String>Address</x:String>
+                        <x:String>ClientName</x:String>
+                        <x:String>Areas</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+             </Picker>
         </Grid>
         <Grid ColumnDefinitions="*,*" BackgroundColor="White" Grid.Row="1">
 
             <DatePicker Format="dd-MM-yyyy" DateSelected="dteFrom_DateSelected" x:Name="dteFrom" Grid.Column="0"  TextColor="Black" FontAttributes="Bold" FontSize="16" BackgroundColor="White" VerticalOptions="Center"></DatePicker>
-            <DatePicker  Format="dd-MM-yyyy"  DateSelected="dteTo_DateSelected" x:Name="dteTo" Grid.Column="1"  TextColor="Black" FontAttributes="Bold" FontSize="16" VerticalOptions="Center"></DatePicker>
+            <DatePicker  Format="dd-MM-yyyy"  DateSelected="dteTo_DateSelected" x:Name="dteTo" Grid.Column="1"  TextColor="Black" FontAttributes="Bold" FontSize="16"  BackgroundColor="White" VerticalOptions="Center"></DatePicker>
   
         </Grid>
         <Grid Grid.Row="2" BackgroundColor="White">

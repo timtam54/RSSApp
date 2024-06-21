@@ -1,5 +1,7 @@
 
 
+using RssMob.Models;
+
 namespace RssMob.Views;
 
 public partial class Inspections : ContentPage, iRefreshData
@@ -12,12 +14,12 @@ public partial class Inspections : ContentPage, iRefreshData
     public Inspections(LoginPage dashboard,int LoginID)
     {
         try { 
-        Loading = true;
-        _dashboard = dashboard;
+            Loading = true;
+            _dashboard = dashboard;
             _LoginID = LoginID;
-        _Items = dashboard.Items;
-        InitializeComponent();
-        Loaded += Inspections_Loaded;
+            _Items = dashboard.Items;
+            InitializeComponent();
+            Loaded += Inspections_Loaded;
         }
         catch (Exception ex)
         {
@@ -28,21 +30,52 @@ public partial class Inspections : ContentPage, iRefreshData
     {
         ;
     }
-    
-    private async void entry_TextChanged(object sender, TextChangedEventArgs e)
+
+      void Sort_SelectedIndexChanged(object sender, EventArgs e)
     {
-        try { 
-       _dashboard.search = e.NewTextValue;
+        try
+        {
+            Picker pk = (Picker)sender;
+            var ss = ((string)pk.SelectedItem);
+            _dashboard.sort =ss;
         if (_dashboard.search == null)
             return;
-            _Items =_dashboard.Items.Where(i => i.ClientName.ToLower().ToString().Contains(_dashboard.search.ToLower()) || (i.Address!=null && i.Address.ToLower().ToString().Contains(_dashboard.search.ToLower())) || (i.TestingInstruments!=null && i.TestingInstruments.ToLower().ToString().Contains(_dashboard.search.ToLower())) || (i.Areas != null && i.Areas.ToLower().ToString().Contains(_dashboard.search.ToLower()))).ToList();// || i.Address.ToLower().ToString().Contains(_dashboard.search.ToLower())).
-            Reload();
+        FilterSort();
+    }
+        catch (Exception ex)
+        {
+             DisplayAlert("Error.Inspections", "Error.Inspections.sort:" + ex.Message, "OK");
+}
+    }
+
+    private  void entry_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        try
+        {
+            _dashboard.search = e.NewTextValue;
+            if (_dashboard.search == null)
+                return;
+            FilterSort();
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error.Inspections", "Error.Inspections.entry_TextChanged:" + ex.Message, "OK");
+             DisplayAlert("Error.Inspections", "Error.Inspections.entry_TextChanged:" + ex.Message, "OK");
         }
     }
+
+    private void FilterSort()
+    {
+        if (_dashboard.sort=="InspDate")
+            _Items = _dashboard.Items.Where(i => i.ClientName.ToLower().ToString().Contains(_dashboard.search.ToLower()) || (i.Address != null && i.Address.ToLower().ToString().Contains(_dashboard.search.ToLower())) || (i.TestingInstruments != null && i.TestingInstruments.ToLower().ToString().Contains(_dashboard.search.ToLower())) || (i.Areas != null && i.Areas.ToLower().ToString().Contains(_dashboard.search.ToLower()))).OrderByDescending(i=>i.InspDate).ToList();// || i.Address.ToLower().ToString().Contains(_dashboard.search.ToLower())).
+        else if (_dashboard.sort == "ClientName")
+            _Items = _dashboard.Items.Where(i => i.ClientName.ToLower().ToString().Contains(_dashboard.search.ToLower()) || (i.Address != null && i.Address.ToLower().ToString().Contains(_dashboard.search.ToLower())) || (i.TestingInstruments != null && i.TestingInstruments.ToLower().ToString().Contains(_dashboard.search.ToLower())) || (i.Areas != null && i.Areas.ToLower().ToString().Contains(_dashboard.search.ToLower()))).OrderBy(i => i.ClientName).ToList();// || i.Address.ToLower().ToString().Contains(_dashboard.search.ToLower())).
+        else if (_dashboard.sort == "Address")
+            _Items = _dashboard.Items.Where(i => i.ClientName.ToLower().ToString().Contains(_dashboard.search.ToLower()) || (i.Address != null && i.Address.ToLower().ToString().Contains(_dashboard.search.ToLower())) || (i.TestingInstruments != null && i.TestingInstruments.ToLower().ToString().Contains(_dashboard.search.ToLower())) || (i.Areas != null && i.Areas.ToLower().ToString().Contains(_dashboard.search.ToLower()))).OrderBy(i => i.Address).ToList();// || i.Address.ToLower().ToString().Contains(_dashboard.search.ToLower())).
+        else //if (_dashboard.sort == "InspDate")
+            _Items = _dashboard.Items.Where(i => i.ClientName.ToLower().ToString().Contains(_dashboard.search.ToLower()) || (i.Address != null && i.Address.ToLower().ToString().Contains(_dashboard.search.ToLower())) || (i.TestingInstruments != null && i.TestingInstruments.ToLower().ToString().Contains(_dashboard.search.ToLower())) || (i.Areas != null && i.Areas.ToLower().ToString().Contains(_dashboard.search.ToLower()))).OrderBy(i => i.Areas).ToList();// || i.Address.ToLower().ToString().Contains(_dashboard.search.ToLower())).
+        Reload();
+    }
+
     public async Task<bool> RefreshDataAsync()
     {
         try { 
